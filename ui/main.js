@@ -14,7 +14,7 @@ for(var i=0;i<comments.length;i++)
 list+='<li>' + comments[i] + '</li>';
 }
 var ul=document.getElementById('list');
-ul.innerHTML = list;
+ul.innerHTML = 'Hola Amigos!';
 }
 }
 };
