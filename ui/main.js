@@ -8,7 +8,7 @@ if(request.status==200)
 {
 var comments=request.responseText;
 comments=JSON.parse(comments);
-var list=``;
+var list='';
 for(var i=0;i<comments.length;i++)
 {
 list+='<li>' + comments[i] + '</li>';
