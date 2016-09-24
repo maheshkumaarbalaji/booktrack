@@ -1,10 +1,10 @@
 var submit=document.getElementById('sub');
-submit.onclick=function(){
+submit.onsubmit=function(){
 var request=new XMLHttpRequest();
 request.onreadystatechange=function(){
 if(request.readystate==XMLHttpRequest.DONE)
 {
-if(request.status==200)
+if(request.status==200||request.status==304)
 {
 var comments=request.responseText;
 comments=JSON.parse(comments);
