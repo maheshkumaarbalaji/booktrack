@@ -20,7 +20,7 @@ ul.innerHTML=list;
 };
 var Input=document.getElementById('comm');
 var comment=Input.value;
-request.open('GET','http://maheshkumaar.imad.hasura-app.io/submit-comment?comment='+comment,true);
+request.open('get','http://maheshkumaar.imad.hasura-app.io/submit-comment?comment='+comment,true);
 request.send(null);
 };
 
