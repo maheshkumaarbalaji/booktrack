@@ -4,7 +4,7 @@ submit.onclick=function(){
 request.onreadystatechange=function(){
 if(request.readystate==XMLHttpRequest.DONE)
 {
-if(request.status==200||request.status==304)
+if(request.status==200)
 {
 var comments=request.responseText;
 comments=JSON.parse(comments);
@@ -13,7 +13,7 @@ for(var i=0;i<comments.length;i++)
 {
 list+='<li>'+comments[i]+'</li>';
 }
-var ul=document.getElementById('ul');
+var ul=document.getElementById('list');
 ul.innerHTML=list;
 }
 }
