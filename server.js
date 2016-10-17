@@ -7,15 +7,15 @@ app.use(morgan('combined'));
 
 var articles={
     'article-one':{
-        title:'Article-one | Mahesh kumaar',
-        heading:'Article one',
-        content:'This is the content of my first article'
+        'title':'Article-one | Mahesh kumaar',
+        'heading':'Article one',
+        'content':'This is the content of my first article'
         
     },
     'article-two':{
-        title:'Article-two | Mahesh kumaar',
-        heading:'Article two',
-        content:'This is the content of my second article'
+        'title':'Article-two | Mahesh kumaar',
+        'heading':'Article two',
+        'content':'This is the content of my second article'
     }
 };
 
