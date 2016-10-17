@@ -7,6 +7,7 @@ if(request.readystate==XMLHttpRequest.DONE)
 if(request.status==200)
 {
 var comments=request.responseText;
+window.prompt(comments);
 comments=JSON.parse(comments);
 var list='';
 for(var i=0;i<comments.length;i++)
