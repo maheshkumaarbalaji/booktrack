@@ -9,12 +9,12 @@ if(request.status==200)
 var comments=request.responseText;
 window.prompt(comments);
 comments=JSON.parse(comments);
-var list='<ul>';
+var list=`<ul>`;
 for(var i=0;i<comments.length;i++)
 {
-list+='<li>' + comments[i] + '</li>';
+list+=`<li>` + comments[i] + `</li>`;
 }
-list+='</ul>';
+list+=`</ul>`;
 var Ul=document.getElementById('list');
 Ul.innerHTML = list.toString();
 }
