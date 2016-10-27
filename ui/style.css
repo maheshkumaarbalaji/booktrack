@@ -45,3 +45,14 @@ body {
     height:50%;
     font-size:20px;
 }
+
+h1
+{
+color:red;
+text-align:center;
+}
+p
+{
+    font-size:20px;
+    padding:10px;
+}
