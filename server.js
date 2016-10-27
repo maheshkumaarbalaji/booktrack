@@ -13,19 +13,6 @@ var config={
     password:process.env.DB_PASSWORD
 };
 
-var articles={
-    'article-one':{
-        'title':'Article-one | Mahesh kumaar',
-        'heading':'Article one',
-        'content':'This is the content of my first article'
-        
-    },
-    'article-two':{
-        'title':'Article-two | Mahesh kumaar',
-        'heading':'Article two',
-        'content':'This is the content of my second article'
-    }
-};
 
 function createTemplate(data){
     var heading=data.heading,title=data.title,content=data.content;
@@ -50,8 +37,6 @@ function createTemplate(data){
     `;
     return htmlTemplate;
 }
-
-
 
 var pool=new Pool(config);
 
