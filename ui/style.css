@@ -38,6 +38,7 @@ body {
     font-size:15px;
     font-family:arial;
     padding:10px 10px 10px 10px;
+    box-sizing:border-box;
 }
 .footer{
     width:100%;
