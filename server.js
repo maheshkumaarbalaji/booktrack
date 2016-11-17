@@ -21,13 +21,17 @@ var config = {
 var pool=new Pool(config);
 
 app.get('/',function(req,res){
-res.sendFile(path.join(__dirname,"index.html"));
+res.sendFile(path.join(__dirname,'ui','index.html'));
 });
 
-app.get('/:pathName',function(req,res){
-pname=req.params.pathName;
-res.sendFile(path.join(__dirname,pname));
+app.get('/style.css',function(req,res){
+res.sendFile(path.join(__dirname,'ui','style.css'));
 });
+
+app.get('/main.js',function(req,res){
+res.sendFile(path.join(__dirname,'ui','main.js'));
+});
+
 
 function hash(input,salt)
 {
