@@ -14,11 +14,6 @@ h1, h2, h3, h4, h5, h6 {
 	color: #9E6813;
 }
 
-h1, h2, h3 {
-}
-
-h4, h5, h6 {
-}
 
 p, ul, ol, blockquote {
 	margin-top: 0;
@@ -46,6 +41,7 @@ img {
 	background: #FFEE8F url(img2.gif) repeat-x;
 	border: 5px solid #FFFFFF;
 	border-bottom: none;
+	box-sizing:border-box;
 }
 
 #header h1 {
