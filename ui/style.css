@@ -109,8 +109,10 @@ img {
 
 #content input[type="submit"]{
     background-color:#FF8C00;
+    width:30%;
     color:white;
-    height:10px;
+    font-size:15px;
+    height:30px;
 }
 /* Footer */
 
