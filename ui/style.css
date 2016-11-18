@@ -2,7 +2,7 @@
 body {
 	margin: 20px;
 	padding: 0;
-	background: #FFFFFF url(img1.gif);
+	background: #FFFFFF url('ui/img1.gif');
 	font: normal small Arial, Helvetica, sans-serif;
 	color: #6F4503;
 }
@@ -38,7 +38,7 @@ img {
 	height: 110px;
 	margin: 0 auto;
 	padding: 35px 0 0 0;
-	background: #FFEE8F url(img2.gif) repeat-x;
+	background: #FFEE8F url('ui/img2.gif') repeat-x;
 	border: 5px solid #FFFFFF;
 	border-bottom: none;
 	box-sizing:border-box;
@@ -82,13 +82,14 @@ img {
 
 #content .title {
 	padding: 10px 20px;
-	background: #FFEE8E url(img4.gif) repeat-x left bottom;
+	background: #FFEE8E url('ui/img4.gif') repeat-x left bottom;
 	font-size: 1em;
 }
 
 #content .story {
 	padding: 20px;
 	border: 2px solid #FFEE8E;
+	line-height:40px;
 }
 
 /* Footer */
