@@ -32,6 +32,11 @@ request.onreadystatechange=function(){
             <button type="button" id="button5">Next 10 Books</button>
             `;
             document.getElementById("context_area").innerHTML=htmlcontent;
+            document.getElementById("button4").onclick=function()
+            {
+              window.location="userHome.html";  
+            };
+            
         }
         else
         {
