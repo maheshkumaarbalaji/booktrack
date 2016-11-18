@@ -108,6 +108,12 @@ img {
 #content .story {
 	padding: 20px;
 	border: 2px solid #FFEE8E;
+	line-height:40px;
+}
+
+#content #context-area{
+    padding: 20px;
+	border: 2px solid #FFEE8E;
 	line-height:30px;
 }
 
