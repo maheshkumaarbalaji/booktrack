@@ -84,24 +84,4 @@ function loadLogin()
     };
 }
 
-function loadAbout(){
-    var contentHTML=`
-    <h2>BookList</h2>
-    <p>BookList provides user with an easy and adoptive approach to manage novels that the user has read, yet to read or would like to view 
-    a review about. The site also provides timely remainders to the user regarding upcoming novels belonging to their marked genres or favourite authors.</p>
-    `;
-    document.getElementById("login_area").innerHTML=contentHTML;
-}
-
-function loadContact(){
-    var contactHTML=`<p>
-    For queries contact,<br>
-    E-mail:booklisthelpline@gmail.com<br>
-    PH-No:9941023456<br>
-    Toll Free No:2122345567<br>
-    </p>
-    `;
-    document.getElementById("login_area").innerHTML=contactHTML;
-}
-
 loadLoginForm();
