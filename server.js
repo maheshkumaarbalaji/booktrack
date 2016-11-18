@@ -52,11 +52,11 @@ res.send(403).send("Username/password is invalid");
 else
 {
 var dbString=result.rows[0].password;
-var salt=dbString.split('$')[1];
+var salt=dbString.split('$')[0];
 var hashedPassword=hash(password,salt);
 if(hashedPassword===dbString)
 {
-res.send("Login Successfull.");
+res.send(200).send("Login Successfull.");
 }
 else
 {
