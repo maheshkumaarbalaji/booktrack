@@ -109,12 +109,14 @@ img {
 	padding: 20px;
 	border: 2px solid #FFEE8E;
 	line-height:40px;
+	overflow:scroll;
 }
 
-#content #context-area{
+#content .story1{
     padding: 20px;
 	border: 2px solid #FFEE8E;
 	line-height:30px;
+	overflow:scroll;
 }
 
 #content .story #button1,#button2,#button4,#button5{
