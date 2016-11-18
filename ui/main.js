@@ -14,7 +14,7 @@ function loadLoginForm()
         var request=new XMLHttpRequest();
         request.onreadystatechange=function()
         {
-            if(request.readystate===XMLHttpRequest.DONE)
+            if(request.readyState===XMLHttpRequest.DONE)
             {
                 if(request.status===200)
                 login.value="Success";
@@ -41,7 +41,7 @@ function loadLoginForm()
         var request=new XMLHttpRequest();
         request.onreadystatechange=function()
         {
-            if(request.readystate===XMLHttpRequest.DONE)
+            if(request.readyState===XMLHttpRequest.DONE)
             {
                 if(request.status===200)
                 submit.value="Registered";
