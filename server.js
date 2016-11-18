@@ -77,7 +77,7 @@ app.post('/create-user',function(req,res){
       res.send(500).send(err.toString());
       else
       {
-          res.send('User successfully created!');
+          res.send(200).send('User successfully created!');
       }
    });
 });
