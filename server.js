@@ -122,6 +122,41 @@ app.post('/create-user',function(req,res){
    });
 });
 
+app.get('/userHome.html',function(req,res){
+   res.sendFile(path.join(__dirname,'ui','userHome.html'));
+});
+
+app.get('/User.js',function(req,res){
+   res.sendFile(path.join(__dirname,'ui','User.js')); 
+});
+
+var counter=1;
+app.get('/browse-books',function(req,res){
+pool.query('SELECT BookId,Title,GenreId FROM Book_Details WHERE BookId>=$1 AND BookId<=$2',[counter,counter+9],function(err,result){
+  if(err)
+  {
+      res.send(500).send(err.roString());
+  }
+  else
+  {
+      var obj;
+      for(var i=0;i<result.rows.length;i++)
+      {
+          pool.query('SELECT Genre_Name FROM Genre_list WHERE GenreId=$1',[result.rows[i].GenreId],function(Err,Result){
+             if(Err)
+             res.send(500).send(Err.toString());
+             else
+             {
+                 obj.push({'BookId':result.rows[i].BookId,'Title':result.rows[i].Title,'Genre':Result.rows[0].Genre_Name});
+             }
+          });
+      }
+      counter=counter+10;
+      res.send(JSON.stringify(obj));
+  }
+});   
+});
+
 app.get('/logout',function(req,res){
    delete req.session.auth;
    res.send('Logged out successfully.');
