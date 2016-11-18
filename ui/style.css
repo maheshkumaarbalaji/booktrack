@@ -71,18 +71,23 @@ img {
 	border-left: 5px solid #FFFFFF;
 	border-right: 5px solid #FFFFFF;
 	box-sizing:border-box;
+	line-height:25px;
 }
 
 #splash h2{
     color: #9E6813;
     font-size:20px;
     text-align:left;
+    padding:10px;
+    box-sizing:border-box;
 }
 
 #splash p{
  font-size:1em;
  line-height:20px;
  text-decoration:none;
+ padding:10px;
+ box-sizing:border-box;
 }
 
 /* Content */
