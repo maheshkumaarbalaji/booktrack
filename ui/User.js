@@ -19,9 +19,9 @@ request.onreadystatechange=function(){
             for(var i=0;i<result.length;i++)
             {
                 htmlContent+=`<tr>
-                <td>${result[0].BookId}</td>
-                <td><a href="/browse-books/${result[0].Title}">${result[0].Title}</a></td>
-                <td>${result[0].Genre}</td>
+                <td>${result[i].BookId}</td>
+                <td><a href="/browse-books/${result[i].Title}">${result[i].Title}</a></td>
+                <td>${result[i].Genre}</td>
                 </tr>
                 `;
             }
