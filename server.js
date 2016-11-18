@@ -22,39 +22,6 @@ var config = {
     password: process.env.DB_PASSWORD
 };
 
-function createTemplate(data){
-    var title=data.title;
-    var CTitle=data.CTitle;
-    var CStory=data.CStory;
-    var template=`
-    <html>
-    <head>
-    <title>
-    ${title}
-    </title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-    <div id="header">
-	<h1>Welcome To,</h1>
-	<h2>BookList </h2>
-    </div>
-    <div id="content">
-	<h2 class="title">
-	${CTitle}
-	</h2>
-	<div class="story">
-	${CStory}	
-	</div>
-</div>
-<div id="footer">
-	<p>Copyright &copy; 2016 BookList.</p>
-</div>
-</body>
-</html>
-    `;
-return template;
-}
 
 var pool=new Pool(config);
 
