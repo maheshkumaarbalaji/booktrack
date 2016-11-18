@@ -94,30 +94,33 @@ img {
 	line-height:40px;
 }
 
-#content input{
+#content .story input{
     width:50%;
-    height:40px;
-    padding:10px;
+    height:25px;
+    padding:5px;
+    font-size:15px;
     border:1px solid black;
     box-sizing:border-box;
 }
 
-#content input:focus{
+#content .story input:focus{
     border:1px solid red;
-    box-shadow:10px 10px 5px #A9A9A9;
+    box-shadow:5px 5px  #A9A9A9;
 }
 
-#content input[type="submit"]{
+#content .story input[type="submit"]{
     background-color:#FF8C00;
     width:30%;
     color:white;
     font-size:15px;
     height:30px;
+    padding:5px;
+    box-sizing:border-box;
 }
 /* Footer */
 
 #footer {
-	width: 450px;
+	width: 490px;
 	margin: 0 auto;
 	padding: 10px 20px;
 	background: #4E4E4E;
