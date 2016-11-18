@@ -65,7 +65,6 @@ img {
 
 #splash {
 	width: 490px;
-	height:100px;
 	margin: 0 auto;
 	background: #FFFFFF;
 	border-left: 5px solid #FFFFFF;
@@ -94,7 +93,6 @@ img {
 
 #content {
 	width: 490px;
-	height:150px;
 	margin: 0 auto;
 	background: #FFFFFF;
 	border: 5px solid #FFFFFF;
@@ -140,7 +138,6 @@ img {
 
 #footer {
 	width: 490px;
-    height:40px;
 	margin: 0 auto;
 	padding: 10px 20px;
 	background: #4E4E4E;
