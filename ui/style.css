@@ -96,6 +96,7 @@ img {
 	text-align: center;
 	text-decoration: none;
 	color: #CCCCCC;
+	box-sizing:border-box;
 }
 
 #menu a:hover, #menu .active a {
