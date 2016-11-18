@@ -65,6 +65,7 @@ img {
 
 #splash {
 	width: 490px;
+	height:100px;
 	margin: 0 auto;
 	background: #FFFFFF;
 	border-left: 5px solid #FFFFFF;
@@ -74,8 +75,8 @@ img {
 
 #splash h2{
     color: #9E6813;
-    font-size:30px;
-    text-align:center;
+    font-size:20px;
+    text-align:left;
 }
 
 #splash p{
