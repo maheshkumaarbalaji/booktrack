@@ -4,10 +4,15 @@ var path=require('path');
 var bodyparser=require('body-parser');
 var Pool=require('pg').Pool;
 var crypto=require('crypto');
+var session=require('express-session');
 
 var app=express();
 app.use(morgan('combined'));
 app.use(bodyparser.json());
+app.use(session({
+    secret:'vamefa00',
+    cookie:{maxage:30*24*60*60*1000}
+}));
 
 var config = {
     user: 'maheshkumaar',
@@ -17,6 +22,39 @@ var config = {
     password: process.env.DB_PASSWORD
 };
 
+function createTemplate(data){
+    var title=data.title;
+    var CTitle=data.CTitle;
+    var CStory=data.CStory;
+    var template=`
+    <html>
+    <head>
+    <title>
+    ${title}
+    </title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <div id="header">
+	<h1>Welcome To,</h1>
+	<h2>BookList </h2>
+    </div>
+    <div id="content">
+	<h2 class="title">
+	${CTitle}
+	</h2>
+	<div class="story">
+	${CStory}	
+	</div>
+</div>
+<div id="footer">
+	<p>Copyright &copy; 2016 BookList.</p>
+</div>
+</body>
+</html>
+    `;
+return template;
+}
 
 var pool=new Pool(config);
 
@@ -56,7 +94,8 @@ var salt=dbString.split('$')[0];
 var hashedPassword=hash(password,salt);
 if(hashedPassword===dbString)
 {
-res.send(200).send("Login Successfull.");
+    req.session.auth={userId:result.rows[0].userid};
+    res.send(200).send("Login Successfull.");
 }
 else
 {
@@ -77,9 +116,15 @@ app.post('/create-user',function(req,res){
       res.send(500).send(err.toString());
       else
       {
+          req.session.auth={userId:result.rows[0].userid};
           res.send(200).send('User successfully created!');
       }
    });
+});
+
+app.get('/logout',function(req,res){
+   delete req.session.auth;
+   res.send('Logged out successfully.');
 });
 
 app.listen(8080,function(){
