@@ -106,7 +106,7 @@ function loadContact(){
 
 var obj=document.getElementById("link1");
 obj.onclick=loadLoginForm();
-var obj1=document.getElementById("link1");
+var obj1=document.getElementById("link2");
 obj1.onclick=loadAbout();
-var obj2=document.getElementById("link1");
+var obj2=document.getElementById("link3");
 obj2.onclick=loadContact();
