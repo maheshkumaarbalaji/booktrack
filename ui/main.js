@@ -61,12 +61,9 @@ function loadLoginForm()
     };
 }
 
-function loadLoggedUser(username)
+function loadLoggedUser()
 {
-    var loginHTML=`<h4>Welcome ${username}</h4>
-    <a href="/logout">Logout</a>
-    `;
-    document.getElementById("login_area").innerHTML=loginHTML;
+    window.location="userHome.html";  
 }
 
 function loadLogin()
@@ -77,7 +74,7 @@ function loadLogin()
         if(request.readystate===XMLHttpRequest.DONE)
         {
             if(request.status===200)
-            loadLoggedUser(this.responseText);
+            loadLoggedUser();
             else
             loadLoginForm();
         }
