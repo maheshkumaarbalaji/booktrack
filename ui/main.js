@@ -95,18 +95,13 @@ function loadAbout(){
 
 function loadContact(){
     var contactHTML=`<p>
-    For queries contact,
-    E-mail:booklisthelpline@gmail.com
-    PH-No:9941023456
-    Toll Free No:2122345567
+    For queries contact,<br>
+    E-mail:booklisthelpline@gmail.com<br>
+    PH-No:9941023456<br>
+    Toll Free No:2122345567<br>
     </p>
     `;
     document.getElementById("login_area").innerHTML=contactHTML;
 }
 
-var obj=document.getElementById("link1");
-obj.onclick=loadLoginForm();
-var obj1=document.getElementById("link2");
-obj1.onclick=loadAbout();
-var obj2=document.getElementById("link3");
-obj2.onclick=loadContact();
+loadLoginForm();
