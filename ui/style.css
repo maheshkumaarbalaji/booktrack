@@ -96,6 +96,7 @@ img {
 
 #content input{
     width:50%;
+    height:40px;
     padding:10px;
     border:1px solid black;
     box-sizing:border-box;
@@ -109,7 +110,7 @@ img {
 #content input[type="submit"]{
     background-color:#FF8C00;
     color:white;
-    height:60px;
+    height:10px;
 }
 /* Footer */
 
