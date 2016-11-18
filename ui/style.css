@@ -111,6 +111,16 @@ img {
 	line-height:40px;
 }
 
+#content .story #button4,#button5{
+    background-color:#FF8C00;
+    width:30%;
+    color:white;
+    font-size:15px;
+    height:30px;
+    padding:5px;
+    box-sizing:border-box;
+}
+}
 #content .story input{
     width:50%;
     height:25px;
