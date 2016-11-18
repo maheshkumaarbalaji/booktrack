@@ -38,7 +38,7 @@ img {
 	height: 110px;
 	margin: 0 auto;
 	padding: 35px 0 0 0;
-	background: #FFEE8F url('ui/img2.gif') repeat-x;
+	background: #FFEE8F url('img2.gif') repeat-x;
 	border: 5px solid #FFFFFF;
 	border-bottom: none;
 	box-sizing:border-box;
@@ -71,7 +71,7 @@ img {
 	border-left: 5px solid #FFFFFF;
 	border-right: 5px solid #FFFFFF;
 	box-sizing:border-box;
-	line-height:25px;
+	line-height:20px;
 }
 
 #splash h2{
@@ -94,6 +94,7 @@ img {
 
 #content {
 	width: 490px;
+	height:150px;
 	margin: 0 auto;
 	background: #FFFFFF;
 	border: 5px solid #FFFFFF;
@@ -102,7 +103,7 @@ img {
 
 #content .title {
 	padding: 10px 20px;
-	background: #FFEE8E url('ui/img4.gif') repeat-x left bottom;
+	background: #FFEE8E url('img4.gif') repeat-x left bottom;
 	font-size: 1em;
 }
 
@@ -139,6 +140,7 @@ img {
 
 #footer {
 	width: 490px;
+    height:40px;
 	margin: 0 auto;
 	padding: 10px 20px;
 	background: #4E4E4E;
