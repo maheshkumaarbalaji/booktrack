@@ -25,6 +25,12 @@ request.onreadystatechange=function(){
                 </tr>
                 `;
             }
+            htmlcontent+=`</table>
+            <br>
+            <button type="button" id="button4">Back to Homepage</button>
+            <p>&nbsp;</p>
+            <button type="button" id="button5">Next 10 Books</button>
+            `;
             document.getElementById("context_area").innerHTML=htmlcontent;
         }
         else
