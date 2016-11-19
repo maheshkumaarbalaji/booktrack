@@ -16,7 +16,7 @@ function loadLoginForm()
         {
             if(request.readyState===XMLHttpRequest.DONE)
             {
-                if(request.status===200)
+                if(request.status===200||request.status===304)
                 login.value="Success";
                 else if(request.status===403)
                 login.value="Invalid Credentials!";
@@ -43,13 +43,14 @@ function loadLoginForm()
         {
             if(request.readyState===XMLHttpRequest.DONE)
             {
-                if(request.status===200)
+                if(request.status===200||request.status===304)
                 submit.value="Registered";
                 else
                 {
                     alert("Something went wrong with the server! Try again later!");
                     submit.value="Register";
                 }
+                loadLogin();
             }
         };
         var username=document.getElementById("username").value;
@@ -73,7 +74,7 @@ function loadLogin()
     {
         if(request.readystate===XMLHttpRequest.DONE)
         {
-            if(request.status===200)
+            if(request.status===200||request.status===304)
             loadLoggedUser();
             else
             loadLoginForm();
