@@ -113,12 +113,13 @@ pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE B
 
 function createTemplate(data)
 {
+    var bookid=data.BookId;
     var Title=data.Title;
     var Author=data.AuthorName;
     var Genre=data.Genre_Name;
     var Description=data.Description;
     var htmlTemplate=`
-    <html>
+<html>
 <head>
 <title>
 ${Title}
@@ -134,15 +135,19 @@ ${Title}
 	<h2 class="title">${Title}</h2>
 	<div class="story1" id="context_area">
 		<ul id="Book_Desc">
+		<li id="bookid">BookID:${bookid}</li>
 		<li>Author:${Author}</li>
 		<li>Genre:${Genre}</li>
 		<li>Description:${Description}</li>
 		</ul>
+		<button type="button" id="Readlist">Add to Readlist</button>
+		<button type="button" id="MarkRead">Mark as Read</button>
 	</div>
 </div>
 <div id="footer">
 	<p>Copyright &copy; 2016 BookList. </p>
 </div>
+<script src="/ui/User.js"></script>
 </body>
 </html>
 `;
@@ -151,7 +156,7 @@ ${Title}
 app.get('/browse-books/:Title',function(req,res){
    var Title=req.params.Title;
    var obj;
-   pool.query('SELECT Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
+   pool.query('SELECT BookId,Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
       if(err)
       res.send(500).send('Something went wrong with the server.');
       else
