@@ -123,6 +123,56 @@ pool.query('SELECT BookId,Title,GenreId FROM Book_Details',function(err,result){
 });   
 });
 
+function createTemplate(data)
+{
+    var Title=data.Title;
+    var Author=data.AuthorName;
+    var Genre=data.Genre_Name;
+    var Description=data.Description;
+    var htmlTemplate=`
+    <html>
+<head>
+<title>
+${Title}
+</title>
+<link rel="stylesheet" type="text/css" href="/ui/style.css"/>
+</head>
+<body>
+<div id="header">
+	<h1>Welcome to,</h1>
+	<h2>BookList</h2>
+</div>
+<div id="content">
+	<h2 class="title">${Title}</h2>
+	<div class="story1" id="context_area">
+		<ul id="Book_Desc">
+		<li>Author:${Author}</li>
+		<li>Genre:${Genre}</li>
+		<li>Description:${Description}</li>
+		</ul>
+	</div>
+</div>
+<div id="footer">
+	<p>Copyright &copy; 2016 BookList. </p>
+</div>
+</body>
+</html>
+`;
+    return htmlTemplate;
+}
+app.get('/browse-books/:Title',function(req,res){
+   var Title=req.params.Title;
+   var obj;
+   pool.query('SELECT Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
+      if(err)
+      res.send(500).send('Something went wrong with the server.');
+      else
+      {
+          res.send(200).send(createTemplate(result.rows[0]));
+      }
+   });
+});
+
 app.get('/logout',function(req,res){
    delete req.session.auth;
    res.send('Logged out successfully.');
