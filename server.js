@@ -88,7 +88,7 @@ app.post('/create-user',function(req,res){
       }
    });
 });
-
+/*
 app.get('/userHome.html',function(req,res){
    res.sendFile(path.join(__dirname,'ui','userHome.html'));
 });
@@ -200,6 +200,7 @@ app.get('/logout',function(req,res){
    delete req.session.auth;
    res.send(200).send('Logged out successfully.');
 });
+*/
 
 app.listen(8080,function(){
 console.log("Server listening on port 8080");
