@@ -106,7 +106,7 @@ pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE B
   }
   else
   {
-       res.send(JSON.stringify(result.rows));
+       res.send(200).send(JSON.stringify(result.rows));
   }
 });   
 });
@@ -166,9 +166,39 @@ app.get('/browse-books/:Title',function(req,res){
    });
 });
 
+app.get('/add-book',function(req,res){
+   var bookid=req.query.bookid;
+   var status='U';
+   pool.query('INSERT INTO UserBook_details(UserId,BookId,Status) VALUES($1,$2,$3)',[req.session.auth.userId,bookid,status],function(err,result){
+      if(err)
+      {
+          res.send(500).send('Some error occurred with the server.');
+      }
+      else
+      {
+          res.send(200).send('Book Added successfully!');
+      }
+   });
+});
+
+app.get('/mark-book',function(req,res){
+   var bookid=req.query.bookid;
+   var status='R';
+   pool.query('UPDATE UserBook_details SET Status=$1 WHERE BookId=$2',[status,bookid],function(err,result){
+      if(err)
+      {
+          res.send(500).send('Some error occurred with the server.');
+      }
+      else
+      {
+          res.send(200).send('Book marked as READ!');
+      }
+   });
+});
+
 app.get('/logout',function(req,res){
    delete req.session.auth;
-   res.send('Logged out successfully.');
+   res.send(200).send('Logged out successfully.');
 });
 
 app.listen(8080,function(){
