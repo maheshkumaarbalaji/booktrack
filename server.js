@@ -88,11 +88,11 @@ app.post('/create-user',function(req,res){
       }
    });
 });
-/*
+
 app.get('/userHome.html',function(req,res){
    res.sendFile(path.join(__dirname,'ui','userHome.html'));
 });
-
+/*
 app.get('/User.js',function(req,res){
    res.sendFile(path.join(__dirname,'ui','User.js')); 
 });
