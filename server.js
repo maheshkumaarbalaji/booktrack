@@ -155,7 +155,6 @@ function createTemplate(data)
 }
 app.get('/browse-books/:Title',function(req,res){
    var Title=req.params.Title;
-   var obj;
    pool.query('SELECT BookId,Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
       if(err)
       res.status(500).send('Something went wrong with the server.');
