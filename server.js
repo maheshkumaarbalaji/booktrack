@@ -110,7 +110,7 @@ pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE B
   }
 });   
 });
-/*
+
 function createTemplate(data)
 {
     var bookid=data.BookId;
@@ -195,7 +195,7 @@ app.get('/mark-book',function(req,res){
       }
    });
 });
-
+/*
 app.get('/logout',function(req,res){
    delete req.session.auth;
    res.send(200).send('Logged out successfully.');
