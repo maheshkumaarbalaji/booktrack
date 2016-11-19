@@ -119,19 +119,19 @@ function createTemplate(data)
     var Genre=data.Genre_Name;
     var Description=data.Description;
     var htmlTemplate=`
-<html>
-<head>
-<title>
-${Title}
-</title>
-<link rel="stylesheet" type="text/css" href="/ui/style.css"/>
-</head>
-<body>
-<div id="header">
+    <html>
+    <head>
+    <title>
+    ${Title}
+    </title>
+    <link rel="stylesheet" type="text/css" href="/ui/style.css"/>
+    </head>
+    <body>
+    <div id="header">
 	<h1>Welcome to,</h1>
 	<h2>BookList</h2>
-</div>
-<div id="content">
+    </div>
+    <div id="content">
 	<h2 class="title">${Title}</h2>
 	<div class="story1" id="context_area">
 		<ul id="Book_Desc">
@@ -142,14 +142,14 @@ ${Title}
 		</ul>
 		<button type="button" id="Readlist">Add to Readlist</button>
 		<button type="button" id="MarkRead">Mark as Read</button>
-	</div>
-</div>
-<div id="footer">
+	    </div>
+    </div>
+    <div id="footer">
 	<p>Copyright &copy; 2016 BookList. </p>
-</div>
-<script src="/ui/User.js"></script>
-</body>
-</html>
+    </div>
+    <script src="/ui/User.js"></script>
+    </body>
+    </html>
 `;
     return htmlTemplate;
 }
