@@ -118,7 +118,7 @@ img {
 	overflow:auto;
 }
 
-#content .story1 #button1,#button2,#button4,#button5{
+#content .story1 #button1,#button2,#button4,#button5,#Readlist,#MarkRead{
     background-color:#FF8C00;
     width:30%;
     color:white;
