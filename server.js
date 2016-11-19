@@ -97,9 +97,9 @@ app.get('/User.js',function(req,res){
    res.sendFile(path.join(__dirname,'ui','User.js')); 
 });
 
-var counter=1;
+
 app.get('/browse-books',function(req,res){
-pool.query('SELECT BookId,Title,GenreId FROM Book_Details WHERE BookId>=$1 AND BookId<=$2',[counter,counter+9],function(err,result){
+pool.query('SELECT BookId,Title,GenreId FROM Book_Details',function(err,result){
   if(err)
   {
       res.send(500).send(err.roString());
@@ -118,7 +118,6 @@ pool.query('SELECT BookId,Title,GenreId FROM Book_Details WHERE BookId>=$1 AND B
              }
           });
       }
-      counter=counter+10;
       res.send(JSON.stringify(obj));
   }
 });   
