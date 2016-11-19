@@ -50,13 +50,44 @@ request.send(null);
 var button2=document.getElementById("button2");
 button2.onclick=function()
 {
+  document.getElementById("context_title").innerHTML='User Profile';
   var request=new XMLHttpRequest();
   request.onreadystatechange=function(){
       if(request.readyState===XMLHttpRequest.DONE)
       {
           if(request.status===200)
           {
-              
+                var result=JSON.parse(request.responseText);
+                var htmlcontent=`
+                <table>
+                <tr>
+                <th>BookID</th>
+                <th>Title</th>
+                </tr>
+                `;
+                for(var i=0;i<result.length;i++)
+                {
+                    htmlContent+=`<tr>
+                    <td>${result[i].BookId}</td>
+                    <td><a href="/browse-books/${result[i].Title}">${result[i].Title}</a></td>
+                    </tr>
+                    `;
+                }
+                htmlcontent+=`</table>
+                <br>
+                <button type="button" id="button4">Back to Homepage</button>
+                <p>&nbsp;</p>
+                `;
+                document.getElementById("context_area").innerHTML=htmlcontent;
+                document.getElementById("button4").onclick=function()
+                {
+                    window.location="userHome.html";  
+                };
+            
+          }
+          else
+          {
+              alert('Some error occurred at the server side.');
           }
       }
   };
