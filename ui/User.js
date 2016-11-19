@@ -21,7 +21,7 @@ request.onreadystatechange=function(){
                 htmlContent+=`<tr>
                 <td>${result[i].BookId}</td>
                 <td><a href="/browse-books/${result[i].Title}">${result[i].Title}</a></td>
-                <td>${result[i].Genre}</td>
+                <td>${result[i].Genre_Name}</td>
                 </tr>
                 `;
             }
