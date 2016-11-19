@@ -195,6 +195,30 @@ app.get('/mark-book',function(req,res){
       }
    });
 });
+
+app.get('/display-profile',function(req,res){
+   var userid=req.session.auth.userId;
+  pool.query('SELECT BookId,Title FROM UserBook_details,Book_Details WHERE UserBook_details.BookId=Book_Details.BookId AND UserId=$1',[userid],function(err,result){
+       if(err)
+       {
+           res.send(500).send('Some error occurred at the server end.');
+       }
+       else
+       {
+           if(result.rows.length===0)
+           {
+               res.send(403).send('Credential error!');
+           }
+           else
+           {
+               res.send(200).send(JSON.stringify(result.rows));
+           }
+       }
+   });
+});
+
+
+
 /*
 app.get('/logout',function(req,res){
    delete req.session.auth;
