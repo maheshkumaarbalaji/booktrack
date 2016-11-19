@@ -99,26 +99,14 @@ app.get('/User.js',function(req,res){
 
 
 app.get('/browse-books',function(req,res){
-pool.query('SELECT BookId,Title,GenreId FROM Book_Details',function(err,result){
+pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
   if(err)
   {
       res.send(500).send(err.roString());
   }
   else
   {
-      var obj;
-      for(var i=0;i<result.rows.length;i++)
-      {
-          pool.query('SELECT Genre_Name FROM Genre_list WHERE GenreId=$1',[result.rows[i].GenreId],function(Err,Result){
-             if(Err)
-             res.send(500).send(Err.toString());
-             else
-             {
-                 obj.push({'BookId':result.rows[i].BookId,'Title':result.rows[i].Title,'Genre':Result.rows[0].Genre_Name});
-             }
-          });
-      }
-      res.send(JSON.stringify(obj));
+       res.send(JSON.stringify(result.rows));
   }
 });   
 });
