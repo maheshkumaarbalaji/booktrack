@@ -49,11 +49,11 @@ var username=req.body.username;
 var password=req.body.password;
 pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
 if(err)
-res.send(500).send(err.toString());
+res.status(500).send(err.toString());
 else
 {
 if(result.rows.length===0)
-res.send(403).send("Username/password is invalid");
+res.status(403).send("Username/password is invalid");
 else
 {
 var dbString=result.rows[0].password;
@@ -62,11 +62,11 @@ var hashedPassword=hash(password,salt);
 if(hashedPassword===dbString)
 {
     req.session.auth={userId:result.rows[0].userid};
-    res.send(200).send("Login Successfull.");
+    res.status(200).send("Login Successfull.");
 }
 else
 {
-res.send(403).send("username/password is invalid.");
+res.status(403).send("username/password is invalid.");
 }
 }
 }
@@ -80,11 +80,11 @@ app.post('/create-user',function(req,res){
    var dbString=hash(password,salt);
    pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
       if(err)
-      res.send(500).send(err.toString());
+      res.status(500).send(err.toString());
       else
       {
           req.session.auth={userId:result.rows[0].userid};
-          res.send(200).send('User successfully created!');
+          res.status(200).send('User successfully created!');
       }
    });
 });
@@ -102,11 +102,11 @@ app.get('/browse-books',function(req,res){
 pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
   if(err)
   {
-      res.send(500).send(err.roString());
+      res.status(500).send(err.roString());
   }
   else
   {
-       res.send(200).send(JSON.stringify(result.rows));
+       res.status(200).send(JSON.stringify(result.rows));
   }
 });   
 });
@@ -158,10 +158,10 @@ app.get('/browse-books/:Title',function(req,res){
    var obj;
    pool.query('SELECT BookId,Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
       if(err)
-      res.send(500).send('Something went wrong with the server.');
+      res.status(500).send('Something went wrong with the server.');
       else
       {
-          res.send(200).send(createTemplate(result.rows[0]));
+          res.status(200).send(createTemplate(result.rows[0]));
       }
    });
 });
@@ -172,11 +172,11 @@ app.get('/add-book',function(req,res){
    pool.query('INSERT INTO UserBook_details(UserId,BookId,Status) VALUES($1,$2,$3)',[req.session.auth.userId,bookid,status],function(err,result){
       if(err)
       {
-          res.send(500).send('Some error occurred with the server.');
+          res.status(500).send('Some error occurred with the server.');
       }
       else
       {
-          res.send(200).send('Book Added successfully!');
+          res.status(200).send('Book Added successfully!');
       }
    });
 });
@@ -187,11 +187,11 @@ app.get('/mark-book',function(req,res){
    pool.query('UPDATE UserBook_details SET Status=$1 WHERE BookId=$2',[status,bookid],function(err,result){
       if(err)
       {
-          res.send(500).send('Some error occurred with the server.');
+          res.status(500).send('Some error occurred with the server.');
       }
       else
       {
-          res.send(200).send('Book marked as READ!');
+          res.status(200).send('Book marked as READ!');
       }
    });
 });
@@ -201,17 +201,17 @@ app.get('/display-profile',function(req,res){
   pool.query('SELECT BookId,Title FROM UserBook_details,Book_Details WHERE UserBook_details.BookId=Book_Details.BookId AND UserId=$1',[userid],function(err,result){
        if(err)
        {
-           res.send(500).send('Some error occurred at the server end.');
+           res.status(500).send('Some error occurred at the server end.');
        }
        else
        {
            if(result.rows.length===0)
            {
-               res.send(403).send('Credential error!');
+               res.status(403).send('Credential error!');
            }
            else
            {
-               res.send(200).send(JSON.stringify(result.rows));
+               res.status(200).send(JSON.stringify(result.rows));
            }
        }
    });
@@ -219,12 +219,12 @@ app.get('/display-profile',function(req,res){
 
 
 
-/*
+
 app.get('/logout',function(req,res){
    delete req.session.auth;
-   res.send(200).send('Logged out successfully.');
+   res.status(200).send('Logged out successfully.');
 });
-*/
+
 
 app.listen(8080,function(){
 console.log("Server listening on port 8080");
