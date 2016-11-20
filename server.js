@@ -33,6 +33,14 @@ app.get('/style.css',function(req,res){
 res.sendFile(path.join(__dirname,'ui','style.css'));
 });
 
+app.get('/img2.gif',function(req,res){
+res.sendFile(path.join(__dirname,'ui','img2.gif'));
+});
+
+app.get('/img4.gif',function(req,res){
+res.sendFile(path.join(__dirname,'ui','img4.gif'));
+});
+
 app.get('/main.js',function(req,res){
 res.sendFile(path.join(__dirname,'ui','main.js'));
 });
@@ -83,10 +91,20 @@ app.post('/create-user',function(req,res){
       res.status(500).send(err.toString());
       else
       {
-          req.session.auth={userId:result.rows[0].userid};
           res.status(200).send('User successfully created!');
       }
    });
+});
+
+app.get('/check-login',function(req,res){
+	if(req.session && req.session.auth && req.session.auth.userId)
+	{
+		res.status(200).send('You are logged in to the website');
+	}
+	else
+	{
+		res.status(403).send('You are not logged in to the website.');
+	}
 });
 
 app.get('/userHome.html',function(req,res){
@@ -99,10 +117,10 @@ app.get('/User.js',function(req,res){
 
 
 app.get('/browse-books',function(req,res){
-pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
+pool.query('SELECT Book_Details.BookId,Book_Details.Title,Genre_list.Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
   if(err)
   {
-      res.status(500).send(err.roString());
+      res.status(500).send(err.toString());
   }
   else
   {
@@ -124,7 +142,7 @@ function createTemplate(data)
     <title>
     ${Title}
     </title>
-    <link rel="stylesheet" type="text/css" href="/ui/style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
     <div id="header">
@@ -140,14 +158,14 @@ function createTemplate(data)
 		<li>Genre:${Genre}</li>
 		<li>Description:${Description}</li>
 		</ul>
-		<button type="button" id="Readlist">Add to Readlist</button>
-		<button type="button" id="MarkRead">Mark as Read</button>
+		<input type="submit" id="Readlist" value="Add to Readlist"/>
+		<input type="submit" id="MarkRead" value="Mark as Read"/>
 	    </div>
     </div>
     <div id="footer">
 	<p>Copyright &copy; 2016 BookList. </p>
     </div>
-    <script src="/ui/User.js"></script>
+    <script src="User.js"></script>
     </body>
     </html>
 `;
@@ -218,12 +236,12 @@ app.get('/display-profile',function(req,res){
 
 
 
-
+/*
 app.get('/logout',function(req,res){
    delete req.session.auth;
-   res.status(200).send('Logged out successfully.');
+   res.send(200).send('Logged out successfully.');
 });
-
+*/
 
 app.listen(8080,function(){
 console.log("Server listening on port 8080");
