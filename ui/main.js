@@ -1,3 +1,26 @@
+function loadLoggedUser()
+{
+    window.location="userHome.html";  
+}
+
+function loadLogin()
+{
+    var request=new XMLHttpRequest();
+    request.onreadystatechange=function()
+    {
+        if(request.readyState===XMLHttpRequest.DONE)
+        {
+            if(request.status===200||request.status===304)
+            loadLoggedUser();
+            else
+            loadLoginForm();
+        }
+    };
+    request.open("GET","/check-login",true);
+    request.send(null);
+}
+
+
 function loadLoginForm()
 {
     var loginHTML=`
@@ -44,13 +67,16 @@ function loadLoginForm()
             if(request.readyState===XMLHttpRequest.DONE)
             {
                 if(request.status===200||request.status===304)
-                submit.value="Registered";
+                {
+                    submit.value="Registered";
+                    alert('Login with the created credentials to proceed!');
+                }
                 else
                 {
                     alert("Something went wrong with the server! Try again later!");
                     submit.value="Register";
                 }
-                loadLogin();
+                loadLoginForm();
             }
         };
         var username=document.getElementById("username").value;
@@ -62,24 +88,5 @@ function loadLoginForm()
     };
 }
 
-function loadLoggedUser()
-{
-    window.location="userHome.html";  
-}
-
-function loadLogin()
-{
-    var request=new XMLHttpRequest();
-    request.onreadystatechange=function()
-    {
-        if(request.readystate===XMLHttpRequest.DONE)
-        {
-            if(request.status===200||request.status===304)
-            loadLoggedUser();
-            else
-            loadLoginForm();
-        }
-    };
-}
 
 loadLoginForm();
