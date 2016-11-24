@@ -28,9 +28,9 @@ function checkRegister(username)
         if(request.readyState===XMLHttpRequest.DONE)
         {
             if(request.status===200)
-                return true;
+                return 1;
             else
-                return false;
+                return 0;
         }
     };
     request.open("POST","/check-register",true);
