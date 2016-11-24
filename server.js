@@ -29,6 +29,10 @@ app.get('/',function(req,res){
 res.sendFile(path.join(__dirname,'ui','index.html'));
 });
 
+app.get('/index.html',function(req,res){
+res.sendFile(path.join(__dirname,'ui','index.html'));
+});
+
 app.get('/style.css',function(req,res){
 res.sendFile(path.join(__dirname,'ui','style.css'));
 });
@@ -43,6 +47,10 @@ res.sendFile(path.join(__dirname,'ui','img4.gif'));
 
 app.get('/main.js',function(req,res){
 res.sendFile(path.join(__dirname,'ui','main.js'));
+});
+
+app.get('/book.js',function(req,res){
+res.sendFile(path.join(__dirname,'ui','book.js'));
 });
 
 
@@ -107,6 +115,27 @@ app.get('/check-login',function(req,res){
 	}
 });
 
+app.post('/check-register',function(req,res){
+	var username=req.body.username;
+	pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
+		if(err)
+		{
+			res.status(500).send('Some error occurred at the server end.');
+		}
+		else
+		{
+			if(result.rows.length===0)
+			{
+				res.status(200).send('Valid username');
+			}
+			else
+			{
+				res.status(403).send('Invalid username');
+			}
+		}
+	});
+});
+
 app.get('/userHome.html',function(req,res){
    res.sendFile(path.join(__dirname,'ui','userHome.html'));
 });
@@ -131,18 +160,18 @@ pool.query('SELECT Book_Details.BookId,Book_Details.Title,Genre_list.Genre_Name 
 
 function createTemplate(data)
 {
-    var bookid=data.BookId;
-    var Title=data.Title;
-    var Author=data.AuthorName;
-    var Genre=data.Genre_Name;
-    var Description=data.Description;
+    var Bookid=data.bookid;
+    var Title=data.title;
+    var Author=data.authorname;
+    var Genre=data.genre_name;
+    var Description=data.description;
     var htmlTemplate=`
     <html>
     <head>
     <title>
     ${Title}
     </title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link href="/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
     <div id="header">
@@ -153,19 +182,20 @@ function createTemplate(data)
 	<h2 class="title">${Title}</h2>
 	<div class="story1" id="context_area">
 		<ul id="Book_Desc">
-		<li id="bookid">BookID:${bookid}</li>
-		<li>Author:${Author}</li>
-		<li>Genre:${Genre}</li>
-		<li>Description:${Description}</li>
+		<li id="bookid"><b>BookID</b>:${Bookid}</li>
+		<li><b>Author</b>:${Author}</li>
+		<li><b>Genre</b>:${Genre}</li>
+		<li><b>Description</b>:${Description}</li>
 		</ul>
 		<input type="submit" id="Readlist" value="Add to Readlist"/>
-		<input type="submit" id="MarkRead" value="Mark as Read"/>
+		<input type="submit" id="MarkRead" value="Mark as Read"/><br/>
+		<input type="submit" id="Home" value="HomePage"/>
 	    </div>
     </div>
     <div id="footer">
 	<p>Copyright &copy; 2016 BookList. </p>
     </div>
-    <script src="User.js"></script>
+    <script src="/book.js"></script>
     </body>
     </html>
 `;
@@ -181,6 +211,28 @@ app.get('/browse-books/:Title',function(req,res){
           res.status(200).send(createTemplate(result.rows[0]));
       }
    });
+});
+
+app.post('/userbook-details',function(req,res){
+	var bookid=req.body.bookid;
+	var userid=req.session.auth.userId;
+	pool.query('SELECT Status FROM UserBook_details WHERE userId=$1 AND BookId=$2',[userid,bookid],function(err,result){
+		if(err)
+		{
+			res.status(500).send('Error at server end.');
+		}
+		else
+		{
+			if(result.rows.length===0)
+			{
+				res.status(403).send('No books were found.');
+			}
+			else
+			{
+				res.status(200).send(JSON.stringify(result.rows[0]));
+			}
+		}
+	});
 });
 
 app.get('/add-book',function(req,res){
@@ -215,7 +267,7 @@ app.get('/mark-book',function(req,res){
 
 app.get('/display-profile',function(req,res){
    var userid=req.session.auth.userId;
-  pool.query('SELECT BookId,Title FROM UserBook_details,Book_Details WHERE UserBook_details.BookId=Book_Details.BookId AND UserId=$1',[userid],function(err,result){
+  pool.query('SELECT UserBook_details.BookId,Book_details.Title FROM UserBook_details,Book_Details WHERE UserId=$1 AND UserBook_details.BookId=Book_Details.BookId ',[userid],function(err,result){
        if(err)
        {
            res.status(500).send('Some error occurred at the server end.');
@@ -227,21 +279,48 @@ app.get('/display-profile',function(req,res){
                res.status(403).send('Credential error!');
            }
            else
-           {
+          	{
                res.status(200).send(JSON.stringify(result.rows));
-           }
+          	
+           	}
        }
    });
 });
+ 
+
+app.get('/upcoming-books',function(req,res){
+var userid=req.session.auth.userId;
+var today=new Date();
+var todayDate="" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+today.setDate(today.getDate()+10);
+var futureDate= "" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+pool.query('SELECT Book_Details.Title,Book_Details.DateofRelease,Genre_list.Genre_Name FROM UserBook_details,Book_Details,Genre_list WHERE UserBook_details.userId=$1 AND UserBook_details.BookId=Book_Details.BookId AND Book_Details.DateofRelease > $2 AND Book_Details.DateofRelease < $3 AND Book_Details.GenreId=Genre_list.GenreId',[userid,todayDate,futureDate],function(err,result){
+	if(err)
+	{
+		res.status(500).send('Some error occurred at the server end.');
+	}
+	else
+	{
+		if(result.rows.length===0)
+		{
+			res.status(403).send('Error at the client end.');
+		}
+		else
+		{
+			res.status(200).send(JSON.stringify(result.rows));
+		}
+	}
+});
+});
 
 
 
-/*
 app.get('/logout',function(req,res){
    delete req.session.auth;
-   res.send(200).send('Logged out successfully.');
+   res.status(200).send('Logged out successfully.');
 });
-*/
+
+
 
 app.listen(8080,function(){
 console.log("Server listening on port 8080");
