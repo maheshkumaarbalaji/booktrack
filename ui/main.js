@@ -84,7 +84,8 @@ function loadLoginForm()
     {
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
-        if(checkRegister(username)===1)
+        var check=checkRegister(username);
+        if(check===1)
         {
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
