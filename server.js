@@ -203,7 +203,7 @@ function createTemplate(data)
 }
 app.get('/browse-books/:Title',function(req,res){
    var Title=req.params.Title;
-   pool.query('SELECT BookId,Title,Description,Genre_Name,AuthorName FROM Book_Details,Genre_list,Author_list WHERE Title=$1 AND Book_Details.GenreId=Genre_list.GenreId AND Book_Details.AuthorId=Author_list.AuthorID',[Title],function(err,result){
+   pool.query('SELECT bookid,title,description,genre_name,authorname FROM book_details,genre_list,author_list WHERE title=$1 AND book_details.genreid=genre_list.genreid AND book_details.authorid=author_list.authorid',[Title],function(err,result){
       if(err)
       res.status(500).send('Something went wrong with the server.');
       else
@@ -216,7 +216,7 @@ app.get('/browse-books/:Title',function(req,res){
 app.post('/userbook-details',function(req,res){
 	var bookid=req.body.bookid;
 	var userid=req.session.auth.userId;
-	pool.query('SELECT Status FROM UserBook_details WHERE userId=$1 AND BookId=$2',[userid,bookid],function(err,result){
+	pool.query('SELECT status FROM userbook_details WHERE userId=$1 AND bookid=$2',[userid,bookid],function(err,result){
 		if(err)
 		{
 			res.status(500).send('Error at server end.');
@@ -238,7 +238,7 @@ app.post('/userbook-details',function(req,res){
 app.get('/add-book',function(req,res){
    var bookid=req.query.bookid;
    var status='U';
-   pool.query('INSERT INTO UserBook_details(UserId,BookId,Status) VALUES($1,$2,$3)',[req.session.auth.userId,bookid,status],function(err,result){
+   pool.query('INSERT INTO userbook_details(userid,bookid,status) VALUES($1,$2,$3)',[req.session.auth.userId,bookid,status],function(err,result){
       if(err)
       {
           res.status(500).send('Some error occurred with the server.');
@@ -253,7 +253,7 @@ app.get('/add-book',function(req,res){
 app.get('/mark-book',function(req,res){
    var bookid=req.query.bookid;
    var status='R';
-   pool.query('UPDATE UserBook_details SET Status=$1 WHERE BookId=$2',[status,bookid],function(err,result){
+   pool.query('UPDATE userbook_details SET status=$1 WHERE bookId=$2',[status,bookid],function(err,result){
       if(err)
       {
           res.status(500).send('Some error occurred with the server.');
@@ -267,7 +267,7 @@ app.get('/mark-book',function(req,res){
 
 app.get('/display-profile',function(req,res){
    var userid=req.session.auth.userId;
-  pool.query('SELECT UserBook_details.BookId,Book_details.Title FROM UserBook_details,Book_Details WHERE UserId=$1 AND UserBook_details.BookId=Book_Details.BookId ',[userid],function(err,result){
+  pool.query('SELECT userbook_details.bookid,book_details.title FROM userbook_details,book_details WHERE userid=$1 AND userbook_details.bookid=book_details.bookid ',[userid],function(err,result){
        if(err)
        {
            res.status(500).send('Some error occurred at the server end.');
@@ -294,7 +294,7 @@ var today=new Date();
 var todayDate="" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
 today.setDate(today.getDate()+10);
 var futureDate= "" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-pool.query('SELECT Book_Details.Title,Book_Details.DateofRelease,Genre_list.Genre_Name FROM UserBook_details,Book_Details,Genre_list WHERE UserBook_details.userId=$1 AND UserBook_details.BookId=Book_Details.BookId AND Book_Details.DateofRelease > $2 AND Book_Details.DateofRelease < $3 AND Book_Details.GenreId=Genre_list.GenreId',[userid,todayDate,futureDate],function(err,result){
+pool.query('SELECT book_details.title,book_details.dateofrelease,genre_list.genre_name FROM userbook_details,book_details,genre_list WHERE userbook_details.userid=$1 AND userbook_details.bookid=book_details.bookid AND book_details.dateofrelease > $2 AND book_details.dateofrelease < $3 AND book_details.genreid=genre_list.genreid',[userid,todayDate,futureDate],function(err,result){
 	if(err)
 	{
 		res.status(500).send('Some error occurred at the server end.');
