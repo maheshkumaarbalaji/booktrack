@@ -20,6 +20,24 @@ function loadLogin()
     request.send(null);
 }
 
+function checkRegister(username)
+{
+    var request=new XMLHttpRequest();
+    request.onreadystatechange=function()
+    {
+        if(request.readyState===XMLHttpRequest.DONE)
+        {
+            if(request.status===200)
+                return true;
+            else
+                return false;
+        }
+    };
+    request.open("POST","/check-register",true);
+    request.setRequestHeader("Content-Type","application/json");
+    request.send(JSON.stringify({"username":username}));
+}
+
 
 function loadLoginForm()
 {
@@ -34,36 +52,43 @@ function loadLoginForm()
     var login=document.getElementById("login_btn");
     login.onclick=function()
     {
-        var request=new XMLHttpRequest();
-        request.onreadystatechange=function()
-        {
-            if(request.readyState===XMLHttpRequest.DONE)
+        
+            var request=new XMLHttpRequest();
+            request.onreadystatechange=function()
             {
-                if(request.status===200||request.status===304)
-                login.value="Success";
-                else if(request.status===403)
-                login.value="Invalid Credentials!";
-                else
+                if(request.readyState===XMLHttpRequest.DONE)
                 {
-                    alert("Something went wrong with the server! Try again later!");
-                    login.value="Login";
+                    if(request.status===200||request.status===304)
+                        login.value="Success";
+                    else if(request.status===403)
+                        login.value="Invalid Credentials!";
+                    else
+                    {
+                        alert("Something went wrong with the server! Try again later!");
+                        login.value="Login";
+                    }
+                    loadLogin();
                 }
-                loadLogin();
-            }
-        };
-        var username=document.getElementById("username").value;
-        var password=document.getElementById("password").value;
-        request.open("POST","/login",true);
-        request.setRequestHeader("Content-Type","application/json");
-        request.send(JSON.stringify({"username":username,"password":password}));
-        login.value="Logging in..";
+            };
+            var username=document.getElementById("username").value;
+            var password=document.getElementById("password").value;
+            request.open("POST","/login",true);
+            request.setRequestHeader("Content-Type","application/json");
+            request.send(JSON.stringify({"username":username,"password":password}));
+            login.value="Logging in..";    
+        
+        
     };
     var submit=document.getElementById("register_btn");
     submit.onclick=function()
     {
-        var request=new XMLHttpRequest();
-        request.onreadystatechange=function()
+        var username=document.getElementById("username").value;
+        var password=document.getElementById("password").value;
+        if(checkRegister(username))
         {
+            var request=new XMLHttpRequest();
+            request.onreadystatechange=function()
+            {
             if(request.readyState===XMLHttpRequest.DONE)
             {
                 if(request.status===200||request.status===304)
@@ -78,13 +103,17 @@ function loadLoginForm()
                 }
                 loadLoginForm();
             }
-        };
-        var username=document.getElementById("username").value;
-        var password=document.getElementById("password").value;
-        request.open("POST","/create-user",true);
-        request.setRequestHeader("Content-Type","application/json");
-        request.send(JSON.stringify({"username":username,"password":password}));
-        submit.value="Creating user..";
+            };
+            request.open("POST","/create-user",true);
+            request.setRequestHeader("Content-Type","application/json");
+            request.send(JSON.stringify({"username":username,"password":password}));
+            submit.value="Creating user..";
+        }
+        else
+        {
+            alert('Username already exists!');
+        }
+
     };
 }
 
