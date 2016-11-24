@@ -146,7 +146,7 @@ app.get('/User.js',function(req,res){
 
 
 app.get('/browse-books',function(req,res){
-pool.query('SELECT Book_Details.BookId,Book_Details.Title,Genre_list.Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
+pool.query('SELECT BookId,Title,Genre_Name  FROM Book_Details,Genre_list WHERE Book_Details.GenreId=Genre_list.GenreId',function(err,result){
   if(err)
   {
       res.status(500).send(err.toString());
