@@ -118,7 +118,7 @@ img {
 	overflow:auto;
 }
 
-#content .story1 #button1,#button2,#button4,#button5,#Readlist,#MarkRead{
+#content .story1 #button1,#button2,#button4,#button5,#Readlist,#MarkRead,#Home,#logout{
     background-color:#FF8C00;
     width:30%;
     color:white;
@@ -129,7 +129,7 @@ img {
 }
 
 #content .story1 #button3{
-background-color:#FF8C00;
+	background-color:#FF8C00;
     width:40%;
     color:white;
     font-size:15px;
@@ -138,6 +138,29 @@ background-color:#FF8C00;
     box-sizing:border-box;
 }
 
+#content .story1 table,th,td
+{
+	border:1px solid #DC143C;
+	border-collapse:collapse;
+	vertical-align: middle;
+	padding:8px;
+}
+
+#content .story1 th
+{
+	background-color:#FF8C00;
+    height:30px;
+    font-size: 15px;
+    color:white;
+}
+
+#content .story1 td
+{
+	height: 20px;
+	font-size: 15px;
+}
+
+
 #content .story1 ul #Book_Desc{
    list-style-type:none;
    line-height:30px;
@@ -145,7 +168,7 @@ background-color:#FF8C00;
 
 #content .story input
 {
-    width:50%;
+    width:50%;
     height:25px;
     padding:5px;
     font-size:15px;
