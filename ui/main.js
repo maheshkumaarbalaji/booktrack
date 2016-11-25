@@ -73,6 +73,12 @@ function loadLoginForm()
     {
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
+        var name=new RegExp("^\w{1,20}$");
+            if(username===""||password===""||!name.test(username))
+                {
+                    alert('Username or password is wrong or empty.');
+                    return;
+                }
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
