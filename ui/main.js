@@ -36,7 +36,14 @@ function loadLoginForm()
     var login=document.getElementById("login_btn");
     login.onclick=function()
     {
-        
+            var username=document.getElementById("username").value;
+            var password=document.getElementById("password").value;
+            var name=new RegExp("^\w{1,20}$");
+            if(username===""||password===""||!name.test(username))
+                {
+                    alert('Username or password is wrong or empty.');
+                    return;
+                }
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
@@ -54,8 +61,6 @@ function loadLoginForm()
                     loadLogin();
                 }
             };
-            var username=document.getElementById("username").value;
-            var password=document.getElementById("password").value;
             request.open("POST","/login",true);
             request.setRequestHeader("Content-Type","application/json");
             request.send(JSON.stringify({"username":username,"password":password}));
