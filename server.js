@@ -292,7 +292,7 @@ app.get('/upcoming-books',function(req,res){
 var userid=req.session.auth.userId;
 var today=new Date();
 var todayDate="" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-pool.query('SELECT book_details.title,book_details.dateofrelease,genre_list.genre_name FROM userbook_details,book_details,genre_list WHERE userbook_details.userid=$1 AND userbook_details.bookid=book_details.bookid AND book_details.dateofrelease > $2  AND book_details.genreid=genre_list.genreid',[userid,todayDate],function(err,result){
+pool.query('SELECT book_details.title,book_details.dateofrelease,genre_list.genre_name FROM book_details,genre_list WHERE book_details.dateofrelease > $1  AND book_details.genreid=genre_list.genreid',[todayDate],function(err,result){
 	if(err)
 	{
 		res.status(500).send('Some error occurred at the server end.');
