@@ -172,7 +172,7 @@ function loadPage()
         }
         else if(request.status===403)
         {
-          alert('No new Book releases in the next 10 days.');
+          alert('No new Book releases.');
         }
         else
         {
