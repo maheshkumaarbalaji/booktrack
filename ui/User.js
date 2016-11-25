@@ -63,7 +63,7 @@ function loadPage()
         }
         else
         {
-          alert('Some error occurred. Try again later.');
+          alert('Some error occurred while retrieving. Try again later.');
         }
     }
   };
@@ -117,7 +117,7 @@ function loadPage()
           }
           else
           {
-            alert('Something went wrong. Try again.'); 
+            alert('No books have been added to your profile.'); 
           }
       }
   };
