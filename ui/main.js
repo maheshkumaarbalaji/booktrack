@@ -76,7 +76,7 @@ function loadLoginForm()
         var naam=new RegExp("^\w{1,20}$");
             if(username===""||password===""||!naam.test(username))
                 {
-                    alert('Username or password is wrong or empty.');
+                    alert('Invalid username or password.');
                     return;
                 }
             var request=new XMLHttpRequest();
