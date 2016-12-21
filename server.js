@@ -15,11 +15,11 @@ app.use(session({
 }));
 
 var config = {
-    user: 'maheshkumaar',
-    database: 'maheshkumaar',
-    host: 'db.imad.hasura-app.io',
+    user: 'gqtfxzyzdwdgcd',
+    database: 'dc0lcst47thd9k',
+    host: 'ec2-54-225-71-119.compute-1.amazonaws.com',
     port: '5432',
-    password: process.env.DB_PASSWORD
+    password: '85e622c7c0f4bee77b61864fc94da7052c3abf6a365e04333fe353037ce1856d'
 };
 
 
@@ -319,7 +319,8 @@ app.get('/logout',function(req,res){
 });
 
 
+var port= process.env.PORT || 8000
 
-app.listen(8080,function(){
-console.log("Server listening on port 8080");
+app.listen(port,function(){
+console.log("Server listening on port " + port);
 });
