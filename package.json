@@ -1,15 +1,28 @@
 {
-  "name": "imad-2016-base",
-  "version": "0.1.0",
-  "description": "IMAD 2016 course app",
-  "main": "server.js",
+  "name": "book-track",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maheshkumaar/book-track.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maheshkumaar/book-track/issues"
+  },
+  "homepage": "https://github.com/maheshkumaar/book-track#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "crypto-js": "^3.1.9-1",
     "express": "^4.14.0",
-    "morgan": "^1.7.0"
+    "express-session": "^1.14.2",
+    "morgan": "^1.7.0",
+    "pg": "^6.1.2"
   }
 }
