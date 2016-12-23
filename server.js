@@ -26,11 +26,11 @@ var config = {
 var pool=new Pool(config);
 
 app.get('/',function(req,res){
-res.sendFile(path.join(__dirname,'ui','index.html'));
+res.sendFile(path.join(__dirname,'index.html'));
 });
 
 app.get('/index.html',function(req,res){
-res.sendFile(path.join(__dirname,'ui','index.html'));
+res.sendFile(path.join(__dirname,'index.html'));
 });
 
 app.get('/style.css',function(req,res){
@@ -38,19 +38,19 @@ res.sendFile(path.join(__dirname,'ui','style.css'));
 });
 
 app.get('/img2.gif',function(req,res){
-res.sendFile(path.join(__dirname,'ui','img2.gif'));
+res.sendFile(path.join(__dirname,'img2.gif'));
 });
 
 app.get('/img4.gif',function(req,res){
-res.sendFile(path.join(__dirname,'ui','img4.gif'));
+res.sendFile(path.join(__dirname,'img4.gif'));
 });
 
 app.get('/main.js',function(req,res){
-res.sendFile(path.join(__dirname,'ui','main.js'));
+res.sendFile(path.join(__dirname,'main.js'));
 });
 
 app.get('/book.js',function(req,res){
-res.sendFile(path.join(__dirname,'ui','book.js'));
+res.sendFile(path.join(__dirname,'book.js'));
 });
 
 
