@@ -19,7 +19,7 @@ var config = {
     database: 'dc3tdkmhq15e9e',
     host: 'ec2-54-163-234-20.compute-1.amazonaws.com',
     port: '5432',
-    password: process.env.DB_PASSWORD
+    password: '447cc04a18b582a5eb8439c36f67f0bd06dc562e9236c5feaafe1d67b29180ce'
 };
 
 
