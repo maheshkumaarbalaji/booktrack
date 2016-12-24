@@ -15,11 +15,11 @@ app.use(session({
 }));
 
 var config = {
-    user: 'gqtfxzyzdwdgcd',
-    database: 'dc0lcst47thd9k',
-    host: 'ec2-54-225-71-119.compute-1.amazonaws.com',
+    user: 'iwjvachikwufws',
+    database: 'dc3tdkmhq15e9e',
+    host: 'ec2-54-163-234-20.compute-1.amazonaws.com',
     port: '5432',
-    password: '85e622c7c0f4bee77b61864fc94da7052c3abf6a365e04333fe353037ce1856d'
+    password: process.env.DB_PASSWORD
 };
 
 
