@@ -39,11 +39,12 @@ function loadLoginForm()
             var username=document.getElementById("username").value;
             var password=document.getElementById("password").value;
             var name=new RegExp("^\w{1,20}$");
-            if(username===""||password===""||!name.test(username))
+          /*  if(username===""||password===""||!name.test(username))
                 {
                     alert('Invalid username or password.');
                     return;
                 }
+*/
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
@@ -74,11 +75,11 @@ function loadLoginForm()
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
         var naam=new RegExp("^\w{1,20}$");
-            if(username===""||password===""||!naam.test(username))
+  /*          if(username===""||password===""||!naam.test(username))
                 {
                     alert('Invalid username or password.');
                     return;
-                }
+                }  */
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
