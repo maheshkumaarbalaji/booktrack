@@ -62,7 +62,7 @@ function hash(input,salt)
 }
 
 app.post('/login',function(req,res){
-var regex=new Regex("^[a-zA-Z0-9_]{1,50}$");
+var regex=new Regex("\w{1,50}");
 var username=req.body.username;
 var password=req.body.password;
 if(password==="" || !regex.test(username))
@@ -99,7 +99,7 @@ else
 });
 
 app.post('/create-user',function(req,res){
-    var regex=new Regex(/[a-zA-Z0-9_]{1,50}/);
+    var regex=new Regex("\w{1,50}");
    var username=req.body.username;
    var password=req.body.password;
    if(password=="" || !regex.test(username))
