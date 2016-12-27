@@ -65,7 +65,7 @@ app.post('/login',function(req,res){
 var regex=new Regex("^[a-zA-Z0-9_]{1,50}$");
 var username=req.body.username;
 var password=req.body.password;
-if(password=="" || !regex.test(username))
+if(password==="" || !regex.test(username))
 {
   res.status(403).send("Username/password is invalid.");
 }
