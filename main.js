@@ -22,32 +22,31 @@ function loadLogin()
 
 function loadRegisterForm()
 {
-    var loginHTML=`<form onsubmit="register();">
-    Username:<input type="text" id="username" required><br/>
+    var registerHTML=`<form onsubmit="register();">
+    Username:<input type="text" id="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
     Password:<input type="password" id="password" required><br/>
     <input type="submit" id="register_btn" value="Register"><br/><br/>
     </form>
     `;
-    document.getElementById("login_area").innerHTML=loginHTML;
+    document.getElementById("login_area").innerHTML=registerHTML;
 }
 
 
 function loadLoginForm()
 {
-    var loginHTML=`<form onsubmit="login();">
-    Username:<input type="text" id="username" required><br/>
+    var loginHTML=`<form onsubmit="LoginFn();">
+    Username:<input type="text" id="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
     Password:<input type="password" id="password" required><br/>
     <input type="submit" id="login_btn" value="Login"><br/><br/>
     </form>
-    <br/>
     <button type="button" id="register_btn" onclick="loadRegisterForm();">Register Now</button><br/><br/>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;
 }
     
-    function login()
+    function LoginFn()
     {
-        var login=document.getElementById("login_btn");
+            var login=document.getElementById("login_btn");
             var username=document.getElementById("username").value;
             var password=document.getElementById("password").value;
             var request=new XMLHttpRequest();
