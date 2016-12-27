@@ -25,7 +25,7 @@ function loadRegisterForm()
     var loginHTML=`<form onsubmit="register();">
     Username:<input type="text" id="username" required><br/>
     Password:<input type="password" id="password" required><br/>
-    <input type="submit" id="login_btn" value="Login"><br/><br/>
+    <input type="submit" id="register_btn" value="Register"><br/><br/>
     </form>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;
@@ -39,7 +39,7 @@ function loadLoginForm()
     Password:<input type="password" id="password" required><br/>
     <input type="submit" id="login_btn" value="Login"><br/><br/>
     </form>
-    <br/><br/>
+    <br/>
     <button type="button" id="register_btn" onclick="loadRegisterForm();">Register Now</button><br/><br/>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;

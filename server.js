@@ -5,7 +5,6 @@ var bodyparser=require('body-parser');
 var Pool=require('pg').Pool;
 var crypto=require('crypto');
 var session=require('express-session');
-var Regex=require('regex');
 
 var app=express();
 app.use(morgan('combined'));
@@ -62,15 +61,8 @@ function hash(input,salt)
 }
 
 app.post('/login',function(req,res){
-var regex=new Regex("\w{1,50}");
 var username=req.body.username;
 var password=req.body.password;
-if(!regex.test(username))
-{
-  res.status(403).send("Username/password is invalid.");
-}
-else
-{
   pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
   if(err)
   res.status(500).send(err.toString());
@@ -95,19 +87,11 @@ else
     }
   }
 });
-}
 });
 
 app.post('/create-user',function(req,res){
-    var regex=new Regex("\w{1,50}");
    var username=req.body.username;
    var password=req.body.password;
-   if(password=="" || !regex.test(username))
-   {
-      res.status(403).send("Invalid username or password.");
-   }
-   else
-   {
       var salt=crypto.randomBytes(64).toString('hex');
       var dbString=hash(password,salt);
       pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
@@ -118,7 +102,6 @@ app.post('/create-user',function(req,res){
           res.status(200).send('User successfully created!');
       }
       });
-    }
 });
 
 app.get('/check-login',function(req,res){
