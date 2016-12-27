@@ -25,11 +25,12 @@ function loadLogin()
 
 function loadLoginForm()
 {
-    var loginHTML=`
-    Username:<input type="text" id="username"/><br/>
-    Password:<input type="password" id="password"/><br/>
-    <input type="submit" id="login_btn" value="Login"/>
-    <input type="submit" id="register_btn" value="Register"/><br/><br/>
+    var loginHTML=`<form>
+    Username:<input type="text" id="username" required><br/>
+    Password:<input type="password" id="password" required><br/>
+    <input type="submit" id="login_btn" value="Login">
+    <input type="submit" id="register_btn" value="Register"><br/><br/>
+    </form>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;
 
@@ -74,8 +75,8 @@ function loadLoginForm()
     {
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
-        var naam=new RegExp("^\w{1,20}$");
-  /*          if(username===""||password===""||!naam.test(username))
+  /*      var naam=new RegExp("^\w{1,20}$");
+           if(username===""||password===""||!naam.test(username))
                 {
                     alert('Invalid username or password.');
                     return;
