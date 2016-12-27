@@ -20,32 +20,36 @@ function loadLogin()
     request.send(null);
 }
 
-
+function loadRegisterForm()
+{
+    var loginHTML=`<form onsubmit="register();">
+    Username:<input type="text" id="username" required><br/>
+    Password:<input type="password" id="password" required><br/>
+    <input type="submit" id="login_btn" value="Login"><br/><br/>
+    </form>
+    `;
+    document.getElementById("login_area").innerHTML=loginHTML;
+}
 
 
 function loadLoginForm()
 {
-    var loginHTML=`<form>
+    var loginHTML=`<form onsubmit="login();">
     Username:<input type="text" id="username" required><br/>
     Password:<input type="password" id="password" required><br/>
-    <input type="submit" id="login_btn" value="Login">
-    <input type="submit" id="register_btn" value="Register"><br/><br/>
+    <input type="submit" id="login_btn" value="Login"><br/><br/>
     </form>
+    <br/><br/>
+    <button type="button" id="register_btn" onclick="loadRegisterForm();">Register Now</button><br/><br/>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;
-
-    var login=document.getElementById("login_btn");
-    login.onclick=function()
+}
+    
+    function login()
     {
+        var login=document.getElementById("login_btn");
             var username=document.getElementById("username").value;
             var password=document.getElementById("password").value;
-            var name=new RegExp("^\w{1,20}$");
-          /*  if(username===""||password===""||!name.test(username))
-                {
-                    alert('Invalid username or password.');
-                    return;
-                }
-*/
             var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
@@ -69,19 +73,14 @@ function loadLoginForm()
             login.value="Logging in..";    
         
         
-    };
-    var submit=document.getElementById("register_btn");
-    submit.onclick=function()
+    }
+    
+    function register()
     {
+        var submit=document.getElementById("register_btn");
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
-  /*      var naam=new RegExp("^\w{1,20}$");
-           if(username===""||password===""||!naam.test(username))
-                {
-                    alert('Invalid username or password.');
-                    return;
-                }  */
-            var request=new XMLHttpRequest();
+        var request=new XMLHttpRequest();
             request.onreadystatechange=function()
             {
             if(request.readyState===XMLHttpRequest.DONE)
@@ -104,8 +103,8 @@ function loadLoginForm()
             request.send(JSON.stringify({"username":username,"password":password}));
             submit.value="Creating user..";
 
-    };
-}
+    }
+
 
 
 loadLoginForm();
