@@ -20,33 +20,23 @@ function loadLogin()
     request.send(null);
 }
 
-function loadRegisterForm()
-{
-    var registerHTML=`<form onsubmit="register();">
-    Username:<input type="text" id="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
-    Password:<input type="password" id="password" required><br/>
-    <input type="submit" id="register_btn" value="Register"><br/><br/>
-    </form>
-    `;
-    document.getElementById("login_area").innerHTML=registerHTML;
-}
+
 
 
 function loadLoginForm()
 {
-    var loginHTML=`<form onsubmit="LoginFn();">
-    Username:<input type="text" id="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
+    var loginHTML=`<form>
+    Username:<input type="text" id="username" required><br/>
     Password:<input type="password" id="password" required><br/>
-    <input type="submit" id="login_btn" value="Login"><br/><br/>
+    <input type="submit" id="login_btn" value="Login">
+    <input type="submit" id="register_btn" value="Register"><br/><br/>
     </form>
-    <button type="button" id="register_btn" onclick="loadRegisterForm();">Register Now</button><br/><br/>
     `;
     document.getElementById("login_area").innerHTML=loginHTML;
-}
-    
-    function LoginFn()
+
+    var login=document.getElementById("login_btn");
+    login.onclick=function()
     {
-            var login=document.getElementById("login_btn");
             var username=document.getElementById("username").value;
             var password=document.getElementById("password").value;
             var request=new XMLHttpRequest();
@@ -72,11 +62,10 @@ function loadLoginForm()
             login.value="Logging in..";    
         
         
-    }
-    
-    function register()
+    };
+    var submit=document.getElementById("register_btn");
+    submit.onclick=function()
     {
-        var submit=document.getElementById("register_btn");
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
         var request=new XMLHttpRequest();
@@ -102,8 +91,8 @@ function loadLoginForm()
             request.send(JSON.stringify({"username":username,"password":password}));
             submit.value="Creating user..";
 
-    }
-
+    };
+}
 
 
 loadLoginForm();
