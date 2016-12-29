@@ -116,15 +116,15 @@ content:`
 };
 
 app.get('/',function(req,res){
-res.status(200).send(homeTemplate(pageDetails('Login')));
+res.status(200).send(homeTemplate(pageDetails['Login']));
 });
 
 app.get('/index.html',function(req,res){
-res.status(200).send(homeTemplate(pageDetails('Login')));
+res.status(200).send(homeTemplate(pageDetails['Login']));
 });
 
 app.get('/register',function(req,res){
-res.status(200).send(homeTemplate(pageDetails('Register')));
+res.status(200).send(homeTemplate(pageDetails['Register']));
 });
 
 app.get('/style.css',function(req,res){
@@ -159,11 +159,11 @@ var username=req.body.username;
 var password=req.body.password;
   pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
   if(err)
-  res.status(500).send(homeTemplate(pageDetails('LSError')));
+  res.status(500).send(homeTemplate(pageDetails['LSError']));
   else
   {
     if(result.rows.length===0)
-    res.status(403).send(homeTemplate(pageDetails('LCError')));
+    res.status(403).send(homeTemplate(pageDetails['LCError']));
     else
     {
       var dbString=result.rows[0].password;
@@ -176,7 +176,7 @@ var password=req.body.password;
       }
       else
       {
-        res.status(403).send(homeTemplate(pageDetails('LCError')));
+        res.status(403).send(homeTemplate(pageDetails['LCError']));
       }
     }
   }
@@ -190,10 +190,10 @@ app.post('/create-user',function(req,res){
       var dbString=hash(password,salt);
       pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
       if(err)
-      res.status(500).send(homeTemplate(pageDetails('RSError')));
+      res.status(500).send(homeTemplate(pageDetails['RSError']));
       else
       {
-          res.status(200).send(homeTemplate(pageDetails('RSuccess')));
+          res.status(200).send(homeTemplate(pageDetails['RSuccess']));
       }
       });
 });
