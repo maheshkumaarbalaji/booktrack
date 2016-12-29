@@ -25,12 +25,106 @@ var config = {
 
 var pool=new Pool(config);
 
+function homeTemplate(data)
+{
+	var content=data.content;
+	var title=data.title;
+	var htmlTemplate=`
+	<html>
+	<head>
+	<title>Home</title>
+	<link href="/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+	<div id="header">
+	<h1>Welcome to,</h1>
+	<h2>BookList</h2>
+	</div>
+	<div id="splash">
+    <h2>About</h2>
+    <p>BookList provides user with an easy and adoptive approach to manage novels that the user has read, yet to read or would like to view 
+    a review about. The site also provides timely remainders to the user regarding upcoming novels belonging to their marked genres or favourite authors.</p>
+	</div>
+	<div id="content">
+	<h2 class="title">${title}</h2>
+	<div class="story" id="login_area">
+		${content}
+	</div>
+	</div>
+	<div id="footer">
+	<p>Copyright &copy; 2016 BookList. </p>
+	</div>
+	<script src="/main.js"></script>
+	</body>
+	</html>
+	`;
+
+	return htmlTemplate;
+}
+
+var pageDetails={
+'LCError':{
+title:'Login',
+content:`
+<h2>Invalid Credentials!</h2>
+<h4><a href="/">Click here</a> to try logging in again.</h4>
+`
+},
+'LSError':{
+	title:'Login',
+	content:`
+	<h2>Error occurred at the server end.</h2>
+	<h4><a href="/">Click here</a> to try logging in again.</h4>	
+	`
+},
+'RSError':{
+	title:'Register',
+	content:`
+	<h2>Error occurred at the server end.</h2>
+	<h4><a href="/register.html">Click here</a> to try logging in again.</h4>
+	`
+},
+'Login':{
+	title:'Login',
+	content:`
+	<form action="/login" method="post" name="login_form">
+    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
+    Password:<input type="password" name="password" required><br/>
+    <input type="submit" id="login_btn" value="Login"><br/><br/>
+    </form>
+    <a href="/register"> &gt&gt Register now </a>
+	`
+},
+'Register':{
+	title:'Register',
+	content:`
+	<form action="/create-user" method="post" name="register_form">
+	Name:<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
+    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" onblur="validate("UName",this.value)" required><span id="UName">*</span><br/>
+    Password:<input type="password" name="password" required><span>*</span><br/>
+    <input type="submit" id="register_btn" value="Register"><br/><br/>
+    </form>
+	`
+},
+'RSuccess':{
+	title:'Register',
+	content:`
+	<h2>Registration process was successfull.</h2>
+	<h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
+	`
+}
+};
+
 app.get('/',function(req,res){
-res.sendFile(path.join(__dirname,'index.html'));
+res.status(200).send(homeTemplate(pageDetails('Login')));
 });
 
 app.get('/index.html',function(req,res){
-res.sendFile(path.join(__dirname,'index.html'));
+res.status(200).send(homeTemplate(pageDetails('Login')));
+});
+
+app.get('/register',function(req,res){
+res.status(200).send(homeTemplate(pageDetails('Register')));
 });
 
 app.get('/style.css',function(req,res){
@@ -65,11 +159,11 @@ var username=req.body.username;
 var password=req.body.password;
   pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
   if(err)
-  res.status(500).send(err.toString());
+  res.status(500).send(homeTemplate(pageDetails('LSError')));
   else
   {
     if(result.rows.length===0)
-    res.status(403).send("Username/password is invalid");
+    res.status(403).send(homeTemplate(pageDetails('LCError')));
     else
     {
       var dbString=result.rows[0].password;
@@ -78,11 +172,11 @@ var password=req.body.password;
       if(hashedPassword===dbString)
       {
         req.session.auth={userId:result.rows[0].userid};
-        res.status(200).send("Login Successfull.");
+        res.status(200).sendFile(path.join(__dirname,'userHome.html'));
       }
       else
       {
-        res.status(403).send("username/password is invalid.");
+        res.status(403).send(homeTemplate(pageDetails('LCError')));
       }
     }
   }
@@ -96,24 +190,14 @@ app.post('/create-user',function(req,res){
       var dbString=hash(password,salt);
       pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
       if(err)
-      res.status(500).send(err.toString());
+      res.status(500).send(homeTemplate(pageDetails('RSError')));
       else
       {
-          res.status(200).send('User successfully created!');
+          res.status(200).send(homeTemplate(pageDetails('RSuccess')));
       }
       });
 });
 
-app.get('/check-login',function(req,res){
-	if(req.session && req.session.auth && req.session.auth.userId)
-	{
-		res.status(200).send('You are logged in to the website');
-	}
-	else
-	{
-		res.status(403).send('You are not logged in to the website.');
-	}
-});
 
 app.post('/check-register',function(req,res){
 	var username=req.body.username;
