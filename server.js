@@ -66,21 +66,21 @@ var pageDetails={
 'LCError':{
 title:'Login',
 content:`
-<h2>Invalid Credentials!</h2>
+<h3>Invalid Credentials!</h3>
 <h4><a href="/">Click here</a> to try logging in again.</h4>
 `
 },
 'LSError':{
 	title:'Login',
 	content:`
-	<h2>Error occurred at the server end.</h2>
+	<h3>Error occurred at the server end.</h3>
 	<h4><a href="/">Click here</a> to try logging in again.</h4>	
 	`
 },
 'RSError':{
 	title:'Register',
 	content:`
-	<h2>Error occurred at the server end.</h2>
+	<h3>Error occurred at the server end.</h3>
 	<h4><a href="/register.html">Click here</a> to try logging in again.</h4>
 	`
 },
@@ -100,7 +100,7 @@ content:`
 	content:`
 	<form action="/create-user" method="post" name="register_form">
 	Name:<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
-    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" onblur="validate("UName",this.value)" required><span id="UName">*</span><br/>
+    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" onblur="validate("UName",this.value);" required><span id="UName">*</span><br/>
     Password:<input type="password" name="password" required><span>*</span><br/>
     <input type="submit" id="register_btn" value="Register"><br/><br/>
     </form>
@@ -201,7 +201,7 @@ app.post('/create-user',function(req,res){
 
 app.post('/check-register',function(req,res){
 	var username=req.body.username;
-	pool.query('SELECT * FROM login_details WHERE username=$1',[username],function(err,result){
+	pool.query('SELECT * from login_details WHERE username=$1',[username],function(err,result){
 		if(err)
 		{
 			res.status(500).send('Some error occurred at the server end.');
