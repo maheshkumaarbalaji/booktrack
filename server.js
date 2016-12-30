@@ -6,9 +6,11 @@ var Pool=require('pg').Pool;
 var crypto=require('crypto');
 var session=require('express-session');
 
+
 var app=express();
 app.use(morgan('combined'));
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:true}));
 app.use(session({
     secret:'vamefa00',
     cookie:{maxage:30*24*60*60*1000}
@@ -27,39 +29,39 @@ var pool=new Pool(config);
 
 function homeTemplate(data)
 {
-	var content=data.content;
-	var title=data.title;
-	var htmlTemplate=`
-	<html>
-	<head>
-	<title>Home</title>
-	<link href="/style.css" rel="stylesheet" type="text/css" />
-	</head>
-	<body>
-	<div id="header">
-	<h1>Welcome to,</h1>
-	<h2>BookList</h2>
-	</div>
-	<div id="splash">
+  var content=data.content;
+  var title=data.title;
+  var htmlTemplate=`
+  <html>
+  <head>
+  <title>Home</title>
+  <link href="/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  <div id="header">
+  <h1>Welcome to,</h1>
+  <h2>BookList</h2>
+  </div>
+  <div id="splash">
     <h2>About</h2>
     <p>BookList provides user with an easy and adoptive approach to manage novels that the user has read, yet to read or would like to view 
     a review about. The site also provides timely remainders to the user regarding upcoming novels belonging to their marked genres or favourite authors.</p>
-	</div>
-	<div id="content">
-	<h2 class="title">${title}</h2>
-	<div class="story" id="login_area">
-		${content}
-	</div>
-	</div>
-	<div id="footer">
-	<p>Copyright &copy; 2016 BookList. </p>
-	</div>
-	<script src="/main.js"></script>
-	</body>
-	</html>
-	`;
+  </div>
+  <div id="content">
+  <h2 class="title">${title}</h2>
+  <div class="story" id="login_area">
+    ${content}
+  </div>
+  </div>
+  <div id="footer">
+  <p>Copyright &copy; 2016 BookList. </p>
+  </div>
+  <script src="/main.js"></script>
+  </body>
+  </html>
+  `;
 
-	return htmlTemplate;
+  return htmlTemplate;
 }
 
 var pageDetails={
@@ -71,47 +73,50 @@ content:`
 `
 },
 'LSError':{
-	title:'Login',
-	content:`
-	<h3>Error occurred at the server end.</h3>
-	<h4><a href="/">Click here</a> to try logging in again.</h4>	
-	`
+  title:'Login',
+  content:`
+  <h3>Error occurred at the server end.</h3>
+  <h4><a href="/">Click here</a> to try logging in again.</h4>  
+  `
 },
 'RSError':{
-	title:'Register',
-	content:`
-	<h3>Error occurred at the server end.</h3>
-	<h4><a href="/register.html">Click here</a> to try logging in again.</h4>
-	`
+  title:'Register',
+  content:`
+  <h3>Error occurred at the server end.</h3>
+  <h4><a href="/register.html">Click here</a> to try logging in again.</h4>
+  `
 },
 'Login':{
-	title:'Login',
-	content:`
-	<form action="/login" method="post" name="login_form">
+  title:'Login',
+  content:`
+  <form action="/login" method="post" name="login_form">
     Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
+    **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
     Password:<input type="password" name="password" required><br/>
     <input type="submit" id="login_btn" value="Login"><br/><br/>
     </form>
     <a href="/register"> &gt&gt Register now </a>
-	`
+  `
 },
 'Register':{
-	title:'Register',
-	content:`
-	<form action="/create-user" method="post" name="register_form">
-	Name:<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
-    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" onblur="validate("UName",this.value);" required><span id="UName">*</span><br/>
-    Password:<input type="password" name="password" required><span>*</span><br/>
+  title:'Register',
+  content:`
+  <form action="/create-user" method="post" name="register_form">
+  Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
+  **Uppercase or lowercase & 1-30 chars long <br/>
+    Username:*<input type="text" name="username" id="userid" pattern="^[a-zA-Z0-9_]{1,40}$" required><span id="user_area"></span><br/>
+    **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
+    Password:*<input type="password" name="password" required><br/>
     <input type="submit" id="register_btn" value="Register"><br/><br/>
     </form>
-	`
+  `
 },
 'RSuccess':{
-	title:'Register',
-	content:`
-	<h2>Registration process was successfull.</h2>
-	<h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
-	`
+  title:'Register',
+  content:`
+  <h2>Registration process was successfull.</h2>
+  <h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
+  `
 }
 };
 
@@ -200,24 +205,24 @@ app.post('/create-user',function(req,res){
 
 
 app.post('/check-register',function(req,res){
-	var username=req.body.username;
-	pool.query('SELECT * from login_details WHERE username=$1',[username],function(err,result){
-		if(err)
-		{
-			res.status(500).send('Some error occurred at the server end.');
-		}
-		else
-		{
-			if(result.rows.length===0)
-			{
-				res.status(200).send('Valid username');
-			}
-			else
-			{
-				res.status(403).send('Invalid username');
-			}
-		}
-	});
+  var username=req.body.username;
+  pool.query('SELECT * from login_details WHERE username=$1',[username],function(err,result){
+    if(err)
+    {
+      res.status(500).send('Some error occurred at the server end.');
+    }
+    else
+    {
+      if(result.rows.length===0)
+      {
+        res.status(200).send('Valid username');
+      }
+      else
+      {
+        res.status(403).send('Invalid username');
+      }
+    }
+  });
 });
 
 app.get('/userHome.html',function(req,res){
@@ -259,25 +264,25 @@ function createTemplate(data)
     </head>
     <body>
     <div id="header">
-	<h1>Welcome to,</h1>
-	<h2>BookList</h2>
+  <h1>Welcome to,</h1>
+  <h2>BookList</h2>
     </div>
     <div id="content">
-	<h2 class="title">${Title}</h2>
-	<div class="story1" id="context_area">
-		<ul id="Book_Desc">
-		<li id="bookid"><b>BookID</b>:${Bookid}</li>
-		<li><b>Author</b>:${Author}</li>
-		<li><b>Genre</b>:${Genre}</li>
-		<li><b>Description</b>:${Description}</li>
-		</ul>
-		<input type="submit" id="Readlist" value="Add to Readlist"/>
-		<input type="submit" id="MarkRead" value="Mark as Read"/><br/>
-		<input type="submit" id="Home" value="HomePage"/>
-	    </div>
+  <h2 class="title">${Title}</h2>
+  <div class="story1" id="context_area">
+    <ul id="Book_Desc">
+    <li id="bookid"><b>BookID</b>:${Bookid}</li>
+    <li><b>Author</b>:${Author}</li>
+    <li><b>Genre</b>:${Genre}</li>
+    <li><b>Description</b>:${Description}</li>
+    </ul>
+    <input type="submit" id="Readlist" value="Add to Readlist"/>
+    <input type="submit" id="MarkRead" value="Mark as Read"/><br/>
+    <input type="submit" id="Home" value="HomePage"/>
+      </div>
     </div>
     <div id="footer">
-	<p>Copyright &copy; 2016 BookList. </p>
+  <p>Copyright &copy; 2016 BookList. </p>
     </div>
     <script src="/book.js"></script>
     </body>
@@ -298,25 +303,25 @@ app.get('/browse-books/:Title',function(req,res){
 });
 
 app.post('/userbook-details',function(req,res){
-	var bookid=req.body.bookid;
-	var userid=req.session.auth.userId;
-	pool.query('SELECT status FROM userbook_details WHERE userId=$1 AND bookid=$2',[userid,bookid],function(err,result){
-		if(err)
-		{
-			res.status(500).send('Error at server end.');
-		}
-		else
-		{
-			if(result.rows.length===0)
-			{
-				res.status(403).send('No books were found.');
-			}
-			else
-			{
-				res.status(200).send(JSON.stringify(result.rows[0]));
-			}
-		}
-	});
+  var bookid=req.body.bookid;
+  var userid=req.session.auth.userId;
+  pool.query('SELECT status FROM userbook_details WHERE userId=$1 AND bookid=$2',[userid,bookid],function(err,result){
+    if(err)
+    {
+      res.status(500).send('Error at server end.');
+    }
+    else
+    {
+      if(result.rows.length===0)
+      {
+        res.status(403).send('No books were found.');
+      }
+      else
+      {
+        res.status(200).send(JSON.stringify(result.rows[0]));
+      }
+    }
+  });
 });
 
 app.get('/add-book',function(req,res){
@@ -363,10 +368,10 @@ app.get('/display-profile',function(req,res){
                res.status(403).send('Credential error!');
            }
            else
-          	{
+            {
                res.status(200).send(JSON.stringify(result.rows));
-          	
-           	}
+            
+            }
        }
    });
 });
@@ -377,21 +382,21 @@ var userid=req.session.auth.userId;
 var today=new Date();
 var todayDate="" + today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
 pool.query('SELECT book_details.title,book_details.dateofrelease,genre_list.genre_name FROM book_details,genre_list WHERE book_details.dateofrelease > $1  AND book_details.genreid=genre_list.genreid',[todayDate],function(err,result){
-	if(err)
-	{
-		res.status(500).send('Some error occurred at the server end.');
-	}
-	else
-	{
-		if(result.rows.length===0)
-		{
-			res.status(403).send('Error at the client end.');
-		}
-		else
-		{
-			res.status(200).send(JSON.stringify(result.rows));
-		}
-	}
+  if(err)
+  {
+    res.status(500).send('Some error occurred at the server end.');
+  }
+  else
+  {
+    if(result.rows.length===0)
+    {
+      res.status(403).send('Error at the client end.');
+    }
+    else
+    {
+      res.status(200).send(JSON.stringify(result.rows));
+    }
+  }
 });
 });
 
