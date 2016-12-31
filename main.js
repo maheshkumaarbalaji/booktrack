@@ -1,25 +1,42 @@
-function validate(field,value)
+function validation()
 {
-    var request=new XMLHttpRequest();
-    request.onreadystatechange=function(){
-        if(request.readyState===XMLHttpRequest.DONE)
+    var valid_btn=document.getElementById("valid_btn");
+    valid_btn.onclick=function()
+    {
+        var stat=document.getElementById("status");
+        var request=new XMLHttpRequest();
+        request.onreadystatechange=function()
         {
-            if(request.status===200)
+            if(request.readyState===XMLHttpRequest.DONE)
             {
-                document.getElementById(field).innerHTML=this.responseText;
+                if(request.status===200)
+                {
+                    valid_btn.innerHTML='Valid';
+                    stat.value='valid';
+                    valid_btn.disabled=true;
+                }
+                else if(request.status===403)
+                {
+                    valid_btn.innerHTML='Invalid';
+                    stat.value='invalid';
+                    document.getElementById("userid").onfocus=function()
+                    {
+                        valid_btn.innerHTML='Check Validity';
+                    };
+                }
+                else
+                {
+                    alert('An error occurred at the server end. Try again.');
+                }
             }
-            else if(request.status===403)
-            {
-                document.getElementById(field).innerHTML='Username already exists';   
-            }
-            else if(request.status===500)
-            {
-                document.getElementById(field).innerHTML='Server error';
-            }
-        }
+
+        };
+        var username=document.getElementById("userid").value;
         request.open("POST","/check-register",true);
-        request.setRequestHeader("Content-Type":"application/json");
-        request.send(JSON.stringify({"username":value}));  
-        document.getElementById(field).innerHTML='Validating...'; 
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(JSON.stringify({"username":username}));
+        valid_btn.innerHTML='Validating..';
     };
 }
+
+validation();

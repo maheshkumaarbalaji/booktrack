@@ -104,7 +104,9 @@ content:`
   <form action="/create-user" method="post" name="register_form">
   Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
   **Uppercase or lowercase & 1-30 chars long <br/>
-    Username:*<input type="text" name="username" id="userid" pattern="^[a-zA-Z0-9_]{1,40}$" required><span id="user_area"></span><br/>
+    Username:*<input type="text" name="username" id="userid" pattern="^[a-zA-Z0-9_]{1,40}$" required>&nbsp;&nbsp;
+    <button type="button" id="valid_btn">Check Validity</button><br/>
+    <input type="hidden" id="status" name="validity_status">
     **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
     Password:*<input type="password" name="password" required><br/>
     <input type="submit" id="register_btn" value="Register"><br/><br/>
@@ -189,18 +191,26 @@ var password=req.body.password;
 });
 
 app.post('/create-user',function(req,res){
-   var username=req.body.username;
-   var password=req.body.password;
-      var salt=crypto.randomBytes(64).toString('hex');
-      var dbString=hash(password,salt);
-      pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
-      if(err)
-      res.status(500).send(homeTemplate(pageDetails['RSError']));
-      else
+      var username=req.body.username;
+      var password=req.body.password;
+      var validation=req.body.validity_status;
+      console.log(validation);
+      if(validation==='valid')
       {
+        var salt=crypto.randomBytes(64).toString('hex');
+        var dbString=hash(password,salt);
+        pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
+        if(err)
+        res.status(500).send(homeTemplate(pageDetails['RSError']));
+        else
+        {
           res.status(200).send(homeTemplate(pageDetails['RSuccess']));
+        }
+        }); 
       }
-      });
+      else
+        res.status(403).send('<p>Username validation has not been performed.</p>');
+      
 });
 
 

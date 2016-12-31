@@ -191,14 +191,9 @@ img {
     box-sizing:border-box;
 }
 
-#content .story #register_btn{
-    background-color:#FF8C00;
-    width:30%;
-    color:white;
-    font-size:15px;
-    height:30px;
-    padding:5px;
-    box-sizing:border-box;
+#content .story #valid_btn{
+	width:25%;
+	height:25px;
 }
 
 
@@ -221,4 +216,3 @@ img {
 	font-size: x-small;
 	color: #CCCCCC;
 }
-
