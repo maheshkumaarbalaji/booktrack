@@ -120,6 +120,13 @@ content:`
   <h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
   `
 }
+'RTFailure':{
+	title:'Register',
+	content:`
+	<p>Username validation has not been performed.</p>
+	<p><a href="/register">Click here</a> to go to the <b>Registration</b> page and try again.</p>
+	`
+}
 };
 
 app.get('/',function(req,res){
@@ -209,7 +216,7 @@ app.post('/create-user',function(req,res){
         }); 
       }
       else
-        res.status(403).send('<p>Username validation has not been performed.</p>');
+        res.status(403).send(homeTemplate(pageDetails['RTFailure']));
       
 });
 
