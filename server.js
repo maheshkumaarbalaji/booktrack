@@ -124,7 +124,7 @@ content:`
 	title:'Register',
 	content:`
 	<p>Username validation has not been performed.</p>
-	<p><a href="/register">Click here</a> to go to the <b>Registration</b> page and try again.</p>
+	<p><a href="/register"><b>Click here</b></a> to go to the <b>Registration</b> page and try again.</p>
 	`
 }
 };
