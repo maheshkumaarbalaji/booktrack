@@ -119,7 +119,7 @@ content:`
   <h2>Registration process was successfull.</h2>
   <h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
   `
-}
+},
 'RTFailure':{
 	title:'Register',
 	content:`
