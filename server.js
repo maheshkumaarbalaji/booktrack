@@ -1,29 +1,32 @@
-var express=require('express');
-var morgan=require('morgan');
-var path=require('path');
-var bodyparser=require('body-parser');
-var Pool=require('pg').Pool;
-var crypto=require('crypto');
-var session=require('express-session');
+require('dotenv').config({ path: __dirname + '/.env' });
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const bodyparser = require('body-parser');
+const Pool = require('pg').Pool;
+const crypto = require('crypto');
+const session = require('express-session');
 
+var app = express();
 
-var app=express();
 app.use(morgan('combined'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/static'));
 app.use(session({
-    secret:'vamefa00',
-    cookie:{maxage:30*24*60*60*1000}
+    secret: process.env.SESSION_SECRET,
+    cookie:{ maxage : 30*24*60*60*1000 },
+    resave: false,
+    saveUninitialized: true
 }));
 
 var config = {
-    user: 'iwjvachikwufws',
-    database: 'dc3tdkmhq15e9e',
-    host: 'ec2-54-163-234-20.compute-1.amazonaws.com',
-    port: '5432',
-    password: '447cc04a18b582a5eb8439c36f67f0bd06dc562e9236c5feaafe1d67b29180ce'
+    user: process.env.POSTGRES_USER,
+    database: process.env.POSTGRES_DB,
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    password: process.env.POSTGRES_PWD
 };
-
 
 var pool=new Pool(config);
 
@@ -40,11 +43,11 @@ function homeTemplate(data)
   <body>
   <div id="header">
   <h1>Welcome to,</h1>
-  <h2>BookList</h2>
+  <h2>Booktrack</h2>
   </div>
   <div id="splash">
     <h2>About</h2>
-    <p>BookList provides user with an easy and adoptive approach to manage novels that the user has read, yet to read or would like to view 
+    <p>Booktrack provides users with an easy and adoptive approach to manage novels that the user has read, yet to read or would like to view 
     a review about. The site also provides timely remainders to the user regarding upcoming novels belonging to their marked genres or favourite authors.</p>
   </div>
   <div id="content">
@@ -64,69 +67,77 @@ function homeTemplate(data)
   return htmlTemplate;
 }
 
-var pageDetails={
-'LCError':{
-title:'Login',
-content:`
-<h3>Invalid Credentials!</h3>
-<h4><a href="/">Click here</a> to try logging in again.</h4>
-`
-},
-'LSError':{
-  title:'Login',
-  content:`
-  <h3>Error occurred at the server end.</h3>
-  <h4><a href="/">Click here</a> to try logging in again.</h4>  
-  `
-},
-'RSError':{
-  title:'Register',
-  content:`
-  <h3>Error occurred at the server end.</h3>
-  <h4><a href="/register.html">Click here</a> to try logging in again.</h4>
-  `
-},
-'Login':{
-  title:'Login',
-  content:`
-  <form action="/login" method="post" name="login_form">
-    Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
-    **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
-    Password:<input type="password" name="password" required><br/>
-    <input type="submit" id="login_btn" value="Login"><br/><br/>
-    </form>
-    <a href="/register"> &gt&gt Register now </a>
-  `
-},
-'Register':{
-  title:'Register',
-  content:`
-  <form action="/create-user" method="post" name="register_form">
-  Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
-  **Uppercase or lowercase & 1-30 chars long <br/>
-    Username:*<input type="text" name="username" id="userid" pattern="^[a-zA-Z0-9_]{1,40}$" required>&nbsp;&nbsp;
-    <button type="button" id="valid_btn">Check Validity</button><br/>
-    <input type="hidden" id="status" name="validity_status">
-    **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
-    Password:*<input type="password" name="password" required><br/>
-    <input type="submit" id="register_btn" value="Register"><br/><br/>
-    </form>
-  `
-},
-'RSuccess':{
-  title:'Register',
-  content:`
-  <h2>Registration process was successfull.</h2>
-  <h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
-  `
-},
-'RTFailure':{
-	title:'Register',
-	content:`
-	<p>Username validation has not been performed.</p>
-	<p><a href="/register"><b>Click here</b></a> to go to the <b>Registration</b> page and try again.</p>
-	`
-}
+var pageDetails = 
+{
+  'LCError':
+  {
+    title:'Login',
+    content:`
+    <h3>Invalid Credentials!</h3>
+    <h4><a href="/">Click here</a> to try logging in again.</h4>
+    `
+  },
+  'LSError':
+  {
+    title:'Login',
+    content:`
+    <h3>Error occurred at the server end.</h3>
+    <h4><a href="/">Click here</a> to try logging in again.</h4>  
+    `
+  },
+  'RSError':
+  {
+    title:'Register',
+    content:`
+    <h3>Error occurred at the server end.</h3>
+    <h4><a href="/register.html">Click here</a> to try logging in again.</h4>
+    `
+  },
+  'Login':
+  {
+    title:'Login',
+    content:`
+    <form action="/login" method="post" name="login_form">
+      Username:<input type="text" name="username" pattern="^[a-zA-Z0-9_]{1,40}$" required><br/>
+      **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
+      Password:<input type="password" name="password" required><br/>
+      <input type="submit" id="login_btn" value="Login"><br/><br/>
+      </form>
+      <a href="/register"> &gt&gt Register now </a>
+    `
+  },
+  'Register':
+  {
+    title:'Register',
+    content:`
+    <form action="/create-user" method="post" name="register_form">
+    Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" pattern="^[a-zA-Z]{0,30}$"><br/>
+    **Uppercase or lowercase & 1-30 chars long <br/>
+      Username:*<input type="text" name="username" id="userid" pattern="^[a-zA-Z0-9_]{1,40}$" required>&nbsp;&nbsp;
+      <button type="button" id="valid_btn">Check Validity</button><br/>
+      <input type="hidden" id="status" name="validity_status">
+      **Uppercase,lowercase,digits or underscore & 1-40 chars long <br/>
+      Password:*<input type="password" name="password" required><br/>
+      <input type="submit" id="register_btn" value="Register"><br/><br/>
+      </form>
+    `
+  },
+  'RSuccess':
+  {
+    title:'Register',
+    content:`
+    <h2>Registration process was successfull.</h2>
+    <h4><a href="/">Login</a> with the created credentials to proceed to the website.</h4>
+    `
+  },
+  'RTFailure':
+  {
+    title:'Register',
+    content:`
+    <p>Username validation has not been performed.</p>
+    <p><a href="/register"><b>Click here</b></a> to go to the <b>Registration</b> page and try again.</p>
+    `
+  }
 };
 
 app.get('/',function(req,res){
@@ -143,14 +154,6 @@ res.status(200).send(homeTemplate(pageDetails['Register']));
 
 app.get('/style.css',function(req,res){
 res.sendFile(path.join(__dirname,'style.css'));
-});
-
-app.get('/img2.gif',function(req,res){
-res.sendFile(path.join(__dirname,'img2.gif'));
-});
-
-app.get('/img4.gif',function(req,res){
-res.sendFile(path.join(__dirname,'img4.gif'));
 });
 
 app.get('/main.js',function(req,res){
@@ -206,23 +209,24 @@ app.post('/create-user',function(req,res){
       {
         var salt=crypto.randomBytes(64).toString('hex');
         var dbString=hash(password,salt);
-        pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result){
-        if(err)
-        res.status(500).send(homeTemplate(pageDetails['RSError']));
-        else
+        pool.query('INSERT INTO login_details(username,password) VALUES($1,$2)',[username,dbString],function(err,result)
         {
-          res.status(200).send(homeTemplate(pageDetails['RSuccess']));
-        }
+          if(err)
+          res.status(500).send(homeTemplate(pageDetails['RSError']));
+          else
+          {
+            res.status(200).send(homeTemplate(pageDetails['RSuccess']));
+          }
         }); 
       }
       else
-        res.status(403).send(homeTemplate(pageDetails['RTFailure']));
-      
+        res.status(403).send(homeTemplate(pageDetails['RTFailure'])); 
 });
 
 
 app.post('/check-register',function(req,res){
   var username=req.body.username;
+  
   pool.query('SELECT * from login_details WHERE username=$1',[username],function(err,result){
     if(err)
     {

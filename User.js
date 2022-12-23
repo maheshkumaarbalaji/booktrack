@@ -15,7 +15,8 @@ function loadPage()
             <li><b>View Upcoming Books:</b>Take a look at all the books in your favourite genres that are to be released within the next 10 days.</li>
         </ul>
   `;
-    document.getElementById("context_area").innerHTML=loadingHTML;
+    
+  document.getElementById("context_area").innerHTML=loadingHTML;
   var button1=document.getElementById("button1");
   button1.onclick=function(){
   document.getElementById("context_title").innerHTML='Add/Manage Books';

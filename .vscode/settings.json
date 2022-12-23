@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9f3e88ae-82f7-428c-a0b8-a8987ae07a25/AppServices/subscriptions/9f3e88ae-82f7-428c-a0b8-a8987ae07a25/resourceGroups/rg-webapps/providers/Microsoft.Web/sites/booktrack",
+    "appService.deploySubpath": "."
+}
