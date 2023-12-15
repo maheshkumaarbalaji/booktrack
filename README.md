@@ -6,9 +6,9 @@
 
 ## Table of Contents
 
-- [About](https://github.com/cfts-mkb/booktrack#about)
-- [Technologies Used](https://github.com/cfts-mkb/booktrack#technologies-used)
-- [Tools Used](https://github.com/cfts-mkb/booktrack#tools-used)
+- [About](https://github.com/maheshkumaarbalaji/booktrack#about)
+- [Technologies Used](https://github.com/maheshkumaarbalaji/booktrack#technologies-used)
+- [Tools Used](https://github.com/maheshkumaarbalaji/booktrack#tools-used)
 
 ## About
 
